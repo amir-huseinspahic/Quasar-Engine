@@ -1,0 +1,145 @@
+<script setup>
+    import { ref } from 'vue';
+    import { Link, useForm } from '@inertiajs/vue3';
+
+    import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+    import PrimaryButton from '@/Components/Base/PrimaryButton.vue';
+    import DangerButton from '@/Components/Base/DangerButton.vue';
+    import Modal from '@/Components/Base/Modal.vue';
+    import {
+        CreditCardIcon,
+        ExclamationCircleIcon,
+        PlusCircleIcon,
+        TableCellsIcon
+    } from '@heroicons/vue/24/outline/index.js'
+    import { XMarkIcon } from '@heroicons/vue/24/solid/index.js'
+
+    const props = defineProps({
+        post: {
+            type: Object,
+            required: true
+        }
+    });
+
+    const deletePostForm = useForm ({});
+
+    let thumbnailPath = '/media/posts/thumbnails/' + props.post.thumbnail;
+    const isDeletionModalShown = ref(false);
+
+    function showModal() {
+        isDeletionModalShown.value = true;
+    }
+
+    function closeModal() {
+        isDeletionModalShown.value = false;
+    }
+
+    const deletePostSubmit = () => {
+        deletePostForm.post(route('posts.destroy', { post: props.post }));
+    }
+
+</script>
+
+<template>
+
+    <AuthenticatedLayout page-title="Post Details">
+
+        <section class="p-2 max-w-[1920px] flex py-3 justify-between">
+            <Link :href="route('posts.index')">
+                <PrimaryButton type="button">Back</PrimaryButton>
+            </Link>
+
+            <div class="space-x-2">
+                <Link :href="route('posts.edit', { post: props.post })">
+                    <PrimaryButton type="button">Edit</PrimaryButton>
+                </Link>
+
+                <DangerButton type="button" @click="showModal">
+                    Delete
+                </DangerButton>
+            </div>
+        </section>
+
+        <div class="max-w-7xl mx-auto mt-4">
+
+            <div class="my-8 flex flex-col rounded-md">
+                <div class="flex flex-col p-1 lg:flex-row lg:justify-between">
+                    <div class="space-x-2">
+                        <span class="w-fit bg-orange-500 shadow rounded-md px-2 py-1 text-white">
+                            {{ post.category.name }}
+                        </span>
+                        <span class="w-fit shadow rounded-md px-2 py-1" :class="post.published ? 'bg-green-400 text-green-800' : 'bg-yellow-400 text-yellow-800'">
+                            {{ post.published ? 'Public' : 'Private' }}
+                        </span>
+                    </div>
+                    <div class="mt-3 lg:my-auto text-gray-700">
+                        <p>By: <span class="font-bold">{{ post.author.name }}</span></p>
+                        <p>Posted at: <span class="font-bold">{{ post.created_at }}</span></p>
+                    </div>
+                </div>
+                <div class="prose lg:prose-lg max-w-none p-2">
+                    <h2>{{ post.title }}</h2>
+                    <p v-html="post.forewords"></p>
+                </div>
+                <div class="w-11/12 mx-auto lg:w-1/2">
+                    <img v-if="post.thumbnail" class="rounded-md shadow-lg object-cover w-full max-h-[600px]" :src="thumbnailPath" alt="">
+                </div>
+                <div class="prose lg:prose-lg max-w-none p-2">
+                    <p v-html="post.content"></p>
+                </div>
+                <div class="grid grid-cols-2 lg:grid-cols-3 gap-1 max-w-2xl mx-auto p-2 m-2 rounded">
+                    <div class="relative" v-for="images in post.media">
+                        <img :src="'/media/posts/media/' + images.name" alt="">
+                    </div>
+                </div>
+            </div>
+
+<!--        <PrimaryButton type="button">-->
+<!--            <Link :href="route('posts.edit', { post: props.post })">-->
+<!--                Edit-->
+<!--            </Link>-->
+<!--        </PrimaryButton>-->
+
+<!--        <DangerButton type="button" @click="showModal">-->
+<!--            Delete-->
+<!--        </DangerButton>-->
+
+<!--        <div class="max-w-4xl flex flex-col mx-auto border border-gray-300 rounded-md p-4 m-8">-->
+<!--            <div class="prose lg:prose-xl"><h2>{{ post.title }}</h2></div>-->
+<!--            <div class="prose lg:prose-xl" v-html="post.forewords" />-->
+<!--            <img class="rounded-md shadow" :src="thumbnailPath" alt="">-->
+<!--            <p class="text-xs text-gray-800 p-1 mb-3">Posted by {{ post.author.name }}</p>-->
+<!--            <p>Category: {{ post.category.name }}</p>-->
+<!--            <div class="prose lg:prose-xl" v-html="post.content"></div>-->
+<!--            <div class="grid grid-cols-3 gap-2">-->
+<!--                <template v-for="images in props.post.media">-->
+<!--                    <img class="rounded shadow" :src="'/media/posts/media/' + images.name" alt="">-->
+<!--                </template>-->
+<!--            </div>-->
+<!--        </div>-->
+
+        </div>
+
+        <Modal :show="isDeletionModalShown" @close="closeModal">
+            <div class="p-6">
+                <h2 class="text-lg font-medium text-gray-700 dark:text-gray-100">
+                    Are you sure you want to delete this post?
+                </h2>
+                <div class="mt-6 flex justify-end">
+                    <PrimaryButton @click="closeModal">
+                        Cancel
+                    </PrimaryButton>
+                    <form @submit.prevent="deletePostSubmit">
+                        <DangerButton
+                            class="ml-3"
+                            :class="{ 'opacity-25': deletePostForm.processing }"
+                            :disabled="deletePostForm.processing">
+                            Confirm
+                        </DangerButton>
+                    </form>
+                </div>
+            </div>
+        </Modal>
+
+    </AuthenticatedLayout>
+</template>

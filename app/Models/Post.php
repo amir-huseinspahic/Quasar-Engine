@@ -41,7 +41,6 @@ class Post extends Model {
         'published' => 'boolean',
         'forewords'=> PurifyHtmlOnGet::class,
         'content' => PurifyHtmlOnGet::class,
-        'created_at' => 'datetime:Y.m.d, H:i',
     ];
 
     public function getSlugOptions() : SlugOptions {

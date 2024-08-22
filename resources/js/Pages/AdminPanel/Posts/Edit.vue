@@ -136,18 +136,18 @@
 </script>
 
 <template>
-    <AuthenticatedLayout page-title="Edit Post">
+    <AuthenticatedLayout :page-title="$t('Edit Post')">
 
         <section class="p-2 max-w-[1920px] flex py-3 justify-between">
             <Link :href="route('posts.show', { post: post })">
-                <PrimaryButton type="button">Cancel</PrimaryButton>
+                <PrimaryButton type="button">{{ $t('Cancel') }}</PrimaryButton>
             </Link>
         </section>
 
         <form class="space-y-8 max-w-7xl mx-auto p-2 my-6" @submit.prevent="editPostSubmit">
 
             <div>
-                <InputLabel for="title">Title<span class="text-red-500">*</span></InputLabel>
+                <InputLabel for="title">{{ $t('Title') }}<span class="text-red-500">*</span></InputLabel>
                 <InputField
                     id="title"
                     name="title"
@@ -161,7 +161,7 @@
 
             <div class="grid grid-cols-1 lg:grid-cols-2 lg:mx-auto gap-2">
                 <div>
-                    <InputLabel for="author">Author<span class="text-red-500">*</span></InputLabel>
+                    <InputLabel for="author">{{ $t('Author') }}<span class="text-red-500">*</span></InputLabel>
                     <select class="border border-gray-300 mt-1 block w-full focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm transition-colors ease-out"
                             id="author"
                             name="author"
@@ -180,7 +180,7 @@
                 </div>
 
                 <div class="mt-8 lg:mt-0">
-                    <InputLabel for="category">Category<span class="text-red-500">*</span></InputLabel>
+                    <InputLabel for="category">{{ $t('Category') }}<span class="text-red-500">*</span></InputLabel>
                     <select class="border border-gray-300 mt-1 block w-full focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm transition-colors ease-out"
                             id="category"
                             name="category"
@@ -200,17 +200,17 @@
             </div>
 
             <div class="w-fit">
-                <InputLabel for="published">Visibility<span class="text-red-500">*</span></InputLabel>
+                <InputLabel for="published">{{ $t('Visibility') }}<span class="text-red-500">*</span></InputLabel>
                 <label class="flex items-center">
                     <Checkbox id="published" name="published" v-model:checked="editPostForm.published" />
-                    <span class="ms-2 select-none" v-if="editPostForm.published">Post will appear to the public</span>
-                    <span class="ms-2 select-none" v-else>Post will not appear to the public</span>
+                    <span class="ms-2 select-none" v-if="editPostForm.published">{{ $t('Post will be visible on the front page.') }}</span>
+                    <span class="ms-2 select-none" v-else>{{ $t('Post will not be visible on the front page.') }}</span>
                 </label>
                 <InputError class="mt-2" :message="editPostForm.errors.published" />
             </div>
 
             <div>
-                <InputLabel for="foreword" value="Foreword" />
+                <InputLabel for="foreword" :value="$t('Forewords')" />
                 <TextArea
                     v-model="editPostForm.forewords"
                     id="foreword"
@@ -220,12 +220,12 @@
 
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-2">
                 <div class="">
-                    <InputLabel for="thumbnail" value="Current thumbnail" />
+                    <InputLabel for="thumbnail" :value="$t('Current thumbnail')" />
                     <img class="rounded-xl shadow-lg object-cover" :src="thumbnailPath + post.thumbnail" alt="">
                 </div>
 
                 <div>
-                    <InputLabel for="thumbnail" value="New thumbnail" />
+                    <InputLabel for="thumbnail" :value="$t('New thumbnail')" />
                     <label class="flex flex-col items-center w-full max-w-lg p-5 mx-auto mt-4 text-center bg-white border-2 border-gray-300 border-dashed cursor-pointer rounded-xl hover:bg-indigo-100 transition-all"
                            for="new_thumbnail"
                            v-show="!thumbnail.preview">
@@ -249,7 +249,7 @@
                 </div>
             </div>
             <div>
-                <InputLabel for="content">Body<span class="text-red-500">*</span></InputLabel>
+                <InputLabel for="content">{{ $t('Body') }}<span class="text-red-500">*</span></InputLabel>
                 <TextArea
                     v-model="editPostForm.content"
                     id="content"
@@ -260,10 +260,10 @@
             </div>
 
             <div>
-                <InputLabel for="media" value="Current media" />
+                <InputLabel for="media" :value="$t('Current media')" />
                 <div v-if="!post.media.length" class="p-2 w-fit flex space-x-2 text-white bg-orange-500 rounded-md shadow-md">
                     <ExclamationCircleIcon class="size-6 text-white" />
-                    <p>There is no media in this post.</p>
+                    <p>{{ $t('There is no media in this post!') }}</p>
                 </div>
                 <div v-else class="grid grid-cols-2 lg:grid-cols-3 gap-1 max-w-2xl mx-auto p-2 m-2 rounded">
                     <div class="relative" v-for="images in post.media">
@@ -279,7 +279,7 @@
             </div>
 
             <div>
-                <InputLabel for="media" value="New media" />
+                <InputLabel for="media" :value="$t('New media')" />
                 <div class="grid grid-cols-2 lg:grid-cols-3 gap-1 border-2 border-gray-300 border-dashed max-w-2xl p-2 m-2 mx-auto rounded">
                     <div class="relative"
                          v-for="(image, index) in postMedia" :key="index">
@@ -299,7 +299,7 @@
                 <InputError class="mt-2" :message="editPostForm.errors.media" />
             </div>
 
-            <PrimaryButton type="submit" :disabled="editPostForm.processing">Update</PrimaryButton>
+            <PrimaryButton type="submit" :disabled="editPostForm.processing">{{ $t('Submit') }}</PrimaryButton>
         </form>
 
 
@@ -313,8 +313,8 @@
                     <div class="animate-spin inline-block w-12 h-12 border-[3px] border-current border-t-transparent text-indigo-500 rounded-full" role="status" aria-label="loading">
                         <span class="sr-only">Loading...</span>
                     </div>
-                    <h2 class="text-center text-white text-xl font-semibold">Updating post...</h2>
-                    <p class="w-3/4 text-center text-white">This may take a few minutes, please don't close this page.</p>
+                    <h2 class="text-center text-white text-xl font-semibold">{{ $t('Updating post...') }}</h2>
+                    <p class="w-3/4 text-center text-white">{{ $t("This may take a few minutes, please don't close this page.") }}</p>
                 </div>
             </div>
         </Transition>

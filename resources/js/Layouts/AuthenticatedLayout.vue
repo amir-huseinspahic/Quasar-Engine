@@ -1,14 +1,14 @@
 <script setup>
-    import { ref } from 'vue'
-    import { Head } from '@inertiajs/vue3'
+    import { ref } from 'vue';
+    import { Head } from '@inertiajs/vue3';
 
-    import AuthenticatedSidebar from '@/Components/AuthenticatedSidebar.vue'
-    import Dropdown from '@/Components/Base/Dropdown.vue'
-    import DropdownLink from '@/Components/Base/DropdownLink.vue'
+    import AuthenticatedSidebar from '@/Components/AuthenticatedSidebar.vue';
+    import Dropdown from '@/Components/Base/Dropdown.vue';
+    import DropdownLink from '@/Components/Base/DropdownLink.vue';
 
-    import { Bars3Icon, ChevronDownIcon } from '@heroicons/vue/24/solid/index.js'
-    import { UserCircleIcon } from '@heroicons/vue/24/outline/index.js'
-    import PrimaryButton from '@/Components/Base/PrimaryButton.vue'
+    import { Bars3Icon, ChevronDownIcon } from '@heroicons/vue/24/solid/index.js';
+    import { UserCircleIcon } from '@heroicons/vue/24/outline/index.js';
+    import PrimaryButton from '@/Components/Base/PrimaryButton.vue';
 
     const props = defineProps({
         pageTitle: {

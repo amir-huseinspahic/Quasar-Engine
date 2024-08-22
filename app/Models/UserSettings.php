@@ -5,20 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class UserPreferences extends Model
-{
+class UserSettings extends Model {
     use HasFactory;
 
-    protected $table = 'user_preferences';
+    protected $table = 'user_settings';
 
     protected $fillable = [
         'user_id',
-        'language',
         'locale',
         'timezone',
-        'date_format',
-        'time_format',
         'items_per_page',
-        'items_preview_layout'
+        'page_layout',
+        'time_format',
+        'date_format'
     ];
 }

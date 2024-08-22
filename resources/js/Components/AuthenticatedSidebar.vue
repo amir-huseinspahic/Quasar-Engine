@@ -106,7 +106,7 @@
                 <HomeIcon class="size-8 min-w-8 m-2" />
                 <span class="my-auto text-lg whitespace-nowrap transition-all ease-out duration-200"
                       :class="sidebarExpanded ? 'opacity-100' : 'opacity-0'">
-                    Dashboard
+                    {{ $t('Dashboard') }}
                 </span>
             </AuthenticatedSidebarPageLink>
 
@@ -114,7 +114,7 @@
                 <UsersIcon class="size-8 min-w-8 m-2" />
                 <span class="my-auto text-lg whitespace-nowrap transition-all ease-out duration-200"
                       :class="sidebarExpanded ? 'opacity-100' : 'opacity-0'">
-                    Users
+                    {{ $t('Users') }}
                 </span>
             </AuthenticatedSidebarPageLink>
 
@@ -122,7 +122,7 @@
                 <NewspaperIcon class="size-8 min-w-8 m-2" />
                 <span class="my-auto text-lg whitespace-nowrap transition-all ease-out duration-200"
                       :class="sidebarExpanded ? 'opacity-100' : 'opacity-0'">
-                    Posts
+                    {{ $t('Posts') }}
                 </span>
             </AuthenticatedSidebarPageLink>
 
@@ -130,7 +130,7 @@
                 <Cog8ToothIcon class="size-8 min-w-8 m-2" />
                 <span class="my-auto text-lg whitespace-nowrap transition-all ease-out duration-200"
                       :class="sidebarExpanded ? 'opacity-100' : 'opacity-0'">
-                    Settings
+                    {{ $t('Settings') }}
                 </span>
             </AuthenticatedSidebarPageLink>
         </nav>

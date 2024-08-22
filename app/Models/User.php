@@ -51,7 +51,7 @@ class User extends Authenticatable
         return $this->hasMany(Post::class);
     }
 
-    public function preferences(): HasOne {
-        return $this->hasOne(UserPreferences::class);
+    public function settings(): HasOne {
+        return $this->hasOne(UserSettings::class);
     }
 }

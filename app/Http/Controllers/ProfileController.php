@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\UserPreferences;
+use App\Models\UserSettings;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -64,12 +65,12 @@ class ProfileController extends Controller
 
     public function updatePreferences(Request $request): RedirectResponse {
         $request->validate([
-            'items_preview_layout' => ['nullable', 'string'],
+            'page_layout' => ['nullable', 'string'],
             'items_per_page' => ['nullable', 'integer'],
         ]);
 
-        UserPreferences::where('user_id', Auth::id())->update([
-            'items_preview_layout' => $request->input('items_preview_layout'),
+        Auth::user()->settings()->update([
+            'page_layout' => $request->input('page_layout'),
             'items_per_page' => $request->input('items_per_page'),
         ]);
 

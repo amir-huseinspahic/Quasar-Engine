@@ -37,16 +37,15 @@ return new class extends Migration
             $table->integer('last_activity')->index();
         });
 
-        Schema::create('user_preferences', function (Blueprint $table) {
+        Schema::create('user_settings', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(User::class)->constrained('users', 'id', 'user_preferences_id')->cascadeOnDelete();
-            $table->string('language')->default('en');
-            $table->string('locale')->default('en_US.UTF-8');
-            $table->string('timezone')->default('UTC');
-            $table->string('date_format')->default('Y-m-d');
-            $table->string('time_format')->default('H:i:s');
+            $table->foreignIdFor(User::class)->constrained('users', 'id', 'settings_user_id')->cascadeOnDelete();
+            $table->string('locale')->default('en');
+            $table->string('timezone')->nullable();
             $table->integer('items_per_page')->default(25);
-            $table->string('items_preview_layout')->default('table');
+            $table->string('page_layout')->default('table');
+            $table->string('time_format')->nullable();
+            $table->string('date_format')->nullable();
             $table->timestamps();
         });
     }
@@ -59,6 +58,5 @@ return new class extends Migration
         Schema::dropIfExists('users');
         Schema::dropIfExists('password_reset_tokens');
         Schema::dropIfExists('sessions');
-        Schema::dropIfExists('user_preferences');
     }
 };

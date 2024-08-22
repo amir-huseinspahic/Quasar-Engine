@@ -1,0 +1,49 @@
+{
+    "Search": "Pretraži",
+    "Next": "Dalje",
+    "Previous": "Nazad",
+    "Back": "Nazad",
+    "Cancel": "Odustani",
+    "Submit": "Postavi",
+    "Edit": "Izmijeni",
+    "Delete": "Obriši",
+    "Confirm": "Povrdi",
+
+
+    "Dashboard": "Početna",
+    "Users": "Korisnici",
+    "Posts": "Objave",
+    "Settings": "Opcije",
+
+
+    "Create Post": "Nova Objava",
+    "Edit Post": "Izmjena Objave",
+    "Post Details": "Detalji Objave",
+
+    "Title": "Naslov",
+    "Author": "Autor",
+    "Category": "Kategorija",
+    "Status": "Status",
+    "Date": "Datum",
+    "Public": "Javno",
+    "Private": "Skriveno",
+    "Body": "Glavni sadržaj",
+    "Forewords": "Predgovor",
+    "Visibility": "Vidljivost",
+    "Thumbnail": "Glavna slika",
+    "Current thumbnail": "Trenutna glavna slika",
+    "New thumbnail": "Nova glavna slika",
+    "Media": "Galerija",
+    "Current media": "Trenutna galerija",
+    "New media": "Nova galerija",
+    "Posted by: ": "Autor objave: ",
+    "Posted at: ": "Datum postavljanja: ",
+
+    "Post will be visible on the front page.": "Objava će biti vidljiva na početnoj stranici.",
+    "Post will not be visible on the front page.": "Objava neće biti vidljiva na početnoj stranici.",
+    "Creating new post...": "Postavljanje nove objave...",
+    "Updating post...": "Prepravljanje objave...",
+    "There is no media in this post!": "Ova objava nema galeriju!",
+    "This may take a few minutes, please don't close this page.": "Ovo bi moglo potrajati nekoliko minuta, molimo ne zatvarajte ovu stranicu.",
+    "Are you sure you want to delete this post?": "Da li ste sigurni da želite obrisati ovu objavu?"
+}

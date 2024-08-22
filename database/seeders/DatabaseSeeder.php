@@ -6,7 +6,7 @@ use App\Models\Post;
 use App\Models\PostCategory;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use App\Models\UserPreferences;
+use App\Models\UserSettings;
 use Database\Factories\UserPreferencesFactory;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -23,15 +23,17 @@ class DatabaseSeeder extends Seeder
             'email' => 'root@example.com',
             'password' => Hash::make('adminadmin'),
         ]);
-        UserPreferences::factory()->create([
+        UserSettings::factory()->create([
             'user_id' => $root->id,
-            'date_format' => 'd.m.Y'
+            'locale' => 'bs',
+            'date_format' => 'd.m.Y',
+            'time_format' => 'H:i',
         ]);
 
 
         $users = User::factory()->count(50)->create();
         $users->each(function ($user) {
-            UserPreferences::factory()->create(['user_id' => $user->id]);
+            UserSettings::factory()->create(['user_id' => $user->id]);
         });
 
         $postCategories = [

@@ -22,43 +22,34 @@ use function PHPSTORM_META\map;
 
 class PostController extends Controller {
 
-    protected function getUserPreferences(): UserPreferences {
-        return UserPreferences::where('user_id', Auth::id(), [
-            'date_format',
-            'time_format',
-            'items_per_page',
-            'items_preview_layout'
-        ])->first();
-    }
-
     /**
      * @return Response
      * Display a listing of the resource.
      */
     public function index() {
 
-        $userPreferences = $this->getUserPreferences();
+        $userSettings = auth()->user()->settings->first();
 
         $posts = Post::query()
             ->orderBy('created_at', 'desc')
             ->when(Request::input('search'), function ($query, $search) {
                 $query->where('title', 'like', "%{$search}%");
             })
-            ->paginate($userPreferences['items_per_page'])
+            ->paginate($userSettings->items_per_page)
             ->withQueryString()
             ->through(fn($post) => [
                 'id' => $post->id,
                 'title' => $post->title,
                 'category' => $post->category->name,
                 'author' => $post->author->name,
-                'created_at' => $post->created_at->format($userPreferences['date_format'], $userPreferences['time_format']),
+                'created_at' => $post->created_at,
                 'published' => $post->published,
                 'thumbnail' => $post->thumbnail,
             ]);
 
         return Inertia::render('AdminPanel/Posts/Index', [
             'posts' => $posts,
-            'userPreferences' => $userPreferences,
+            'userPreferences' => $userSettings,
             'filters' => Request::only(['search', 'category', 'author', 'published']),
         ]);
     }
@@ -116,8 +107,22 @@ class PostController extends Controller {
      * Display the specified resource.
      */
     public function show(Post $post) : Response {
+        $userSettings = auth()->user()->settings->first();
+
+        $userPreferences['locale'] = $userSettings->locale;
+        $userPreferences['timezone'] = $userSettings->timezone;
+        $userPreferences['date_format'] = $userSettings->date_format;
+        $userPreferences['time_format'] = $userSettings->time_format;
+
+        unset($userSettings);
+
+
         $post->load('author', 'category', 'media');
-        return Inertia::render('AdminPanel/Posts/Show', ['post' => $post]);
+
+        return Inertia::render('AdminPanel/Posts/Show', [
+            'post' => $post,
+            'userPreferences' => $userPreferences,
+        ]);
     }
 
     /**

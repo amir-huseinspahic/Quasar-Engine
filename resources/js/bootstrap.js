@@ -14,6 +14,6 @@ dayjs.extend(dayjsCustomParseFormat);
 dayjs.extend(dayjsLocale);
 
 window.axios = axios;
-window.dayjs = dayjs;
-
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+
+window.dayjs = dayjs;

@@ -47,7 +47,7 @@
                 </span>
             </AuthenticatedSidebarPageLink>
 
-            <AuthenticatedSidebarPageLink class="mt-1" href="">
+            <AuthenticatedSidebarPageLink class="mt-1" :href="route('users.index')" :active="route().current('users.*')">
                 <UsersIcon class="size-8 min-w-8 m-2" />
                 <span class="my-auto whitespace-nowrap transition-all ease-out duration-200">
                     Users
@@ -110,7 +110,7 @@
                 </span>
             </AuthenticatedSidebarPageLink>
 
-            <AuthenticatedSidebarPageLink class="mt-1" href="">
+            <AuthenticatedSidebarPageLink class="mt-1" :href="route('users.index')" :active="route().current('users.*')">
                 <UsersIcon class="size-8 min-w-8 m-2" />
                 <span class="my-auto text-lg whitespace-nowrap transition-all ease-out duration-200"
                       :class="sidebarExpanded ? 'opacity-100' : 'opacity-0'">

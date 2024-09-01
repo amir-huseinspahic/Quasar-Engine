@@ -1,6 +1,6 @@
 <script setup>
     import { ref } from 'vue'
-    import { Link, useForm, usePage } from '@inertiajs/vue3';
+    import { Link, router, useForm, usePage } from '@inertiajs/vue3';
 
     import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
     import PrimaryButton from '@/Components/Base/PrimaryButton.vue';
@@ -24,13 +24,6 @@
     const deletePostForm = useForm ({});
     const isDeletionModalShown = ref(false);
 
-    function showModal() {
-        isDeletionModalShown.value = true;
-    }
-
-    function closeModal() {
-        isDeletionModalShown.value = false;
-    }
 
     function getHRT(datetime) {
         return dayjs(datetime)
@@ -39,6 +32,20 @@
             .format(usePage().props.auth.user.settings.date_format +  ", " + usePage().props.auth.user.settings.time_format);
     }
 
+    function back() {
+        let urlPrev = usePage().props.urlPrev;
+
+        if (urlPrev !== 'empty') window.history.back();
+        else router.visit(route('posts.index'));
+    }
+
+    function showModal() {
+        isDeletionModalShown.value = true;
+    }
+
+    function closeModal() {
+        isDeletionModalShown.value = false;
+    }
 
     const deletePostSubmit = () => {
         deletePostForm.post(route('posts.destroy', { post: props.post }));
@@ -51,11 +58,9 @@
     <AuthenticatedLayout :page-title="$t('Post Details')">
 
         <section class="p-2 max-w-[1920px] flex py-3 justify-between">
-            <Link :href="route('posts.index')">
-                <PrimaryButton type="button">
-                    {{ $t('Back') }}
-                </PrimaryButton>
-            </Link>
+            <PrimaryButton type="button" @click="back">
+                {{ $t('Back') }}
+            </PrimaryButton>
 
             <div class="space-x-2">
                 <Link :href="route('posts.edit', { post: props.post })">
@@ -83,8 +88,11 @@
                         </span>
                     </div>
                     <div class="mt-3 lg:my-auto text-gray-700">
-                        <p>{{ $t('Posted by: ') }} <span class="font-bold">{{ post.author.name }}</span></p>
-                        <p>{{ $t('Posted at: ') }}<span class="font-bold">{{ getHRT(post.created_att) }}</span></p>
+                        <p>{{ $t('Posted by: ') }}
+                            <Link :href="route('users.show', { user: post.author })" class="font-bold text-indigo-600">
+                            {{ post.author.name }}
+                            </Link></p>
+                        <p>{{ $t('Posted at: ') }}<span class="font-bold">{{ getHRT(post.created_at) }}</span></p>
                     </div>
                 </div>
                 <div class="prose lg:prose-lg max-w-none p-2">

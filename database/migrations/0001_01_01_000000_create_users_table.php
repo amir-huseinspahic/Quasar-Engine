@@ -18,6 +18,9 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->boolean('is_hidden')->default(false);
+            $table->timestamp('last_active_at')->nullable();
+            $table->timestamp('last_login_at')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
@@ -41,11 +44,12 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(User::class)->constrained('users', 'id', 'settings_user_id')->cascadeOnDelete();
             $table->string('locale')->default('en');
-            $table->string('timezone')->nullable();
+            $table->string('timezone')->default('Europe/London');
             $table->integer('items_per_page')->default(25);
             $table->string('page_layout')->default('table');
-            $table->string('time_format')->nullable();
-            $table->string('date_format')->nullable();
+            $table->string('time_format')->default('HH:mm:ss');
+            $table->string('date_format')->default('YYYY-MM-DD');
+            $table->boolean('show_private_posts')->default(false);
             $table->timestamps();
         });
     }
@@ -58,5 +62,6 @@ return new class extends Migration
         Schema::dropIfExists('users');
         Schema::dropIfExists('password_reset_tokens');
         Schema::dropIfExists('sessions');
+        Schema::dropIfExists('user_settings');
     }
 };

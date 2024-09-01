@@ -4,17 +4,16 @@ namespace App\Http\Requests;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
 
 class PostStoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
-//    public function authorize(): bool
-//    {
-//        return false;
-//    }
+    public function authorize(): bool {
+        return Auth::check();
+    }
 
     /**
      * Get the validation rules that apply to the request.

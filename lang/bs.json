@@ -7,13 +7,19 @@
     "Submit": "Postavi",
     "Edit": "Izmijeni",
     "Delete": "Obriši",
-    "Confirm": "Povrdi",
+    "Confirm": "Potvrdi",
+    "Password": "Lozinka",
+    "Confirm password": "Potvrda lozinke",
+    "Language": "Jezik",
+    "Timezone": "Vremenska zona",
+
 
 
     "Dashboard": "Početna",
     "Users": "Korisnici",
     "Posts": "Objave",
     "Settings": "Opcije",
+
 
 
     "Create Post": "Nova Objava",
@@ -38,6 +44,25 @@
     "New media": "Nova galerija",
     "Posted by: ": "Autor objave: ",
     "Posted at: ": "Datum postavljanja: ",
+    "Register User": "Novi Korisnik",
+    "Edit User": "Izmjena Korisnika",
+    "User Profile": "Profil Korisnika",
+    "Name and surname": "Ime i prezime",
+    "E-mail": "Email",
+    "Privileges": "Privilegije",
+    "New password": "Nova lozinka",
+    "Active": "Aktivan",
+    "Date of registration": "Datum registracije",
+    "Basic info": "Osnovne informacije",
+    "Preferences": "Preference",
+    "Role: ": "Privilegije: ",
+    "Created at: ": "Datum unosa: ",
+    "Language: ": "Jezik: ",
+    "Timezone: ": "Vremenska zona: ",
+    "Posts by ": "Objave od ",
+    "Date format": "Format datuma",
+    "Time format": "Format vremena",
+
 
     "Post will be visible on the front page.": "Objava će biti vidljiva na početnoj stranici.",
     "Post will not be visible on the front page.": "Objava neće biti vidljiva na početnoj stranici.",
@@ -45,5 +70,7 @@
     "Updating post...": "Prepravljanje objave...",
     "There is no media in this post!": "Ova objava nema galeriju!",
     "This may take a few minutes, please don't close this page.": "Ovo bi moglo potrajati nekoliko minuta, molimo ne zatvarajte ovu stranicu.",
-    "Are you sure you want to delete this post?": "Da li ste sigurni da želite obrisati ovu objavu?"
+    "Are you sure you want to delete this post?": "Da li ste sigurni da želite obrisati ovu objavu?",
+    "Are you sure you want to delete this user?": "Da li ste sigurni da želite obrisati ovog korisnika?",
+    "Deleting this user will also delete any posts this user has made!": "Sve objave koje je ovaj korisnik postavio će biti obrisane!"
 }

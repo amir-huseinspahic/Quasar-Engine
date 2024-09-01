@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -19,6 +20,17 @@ Route::middleware('auth')->group(function () {
     Route::post('/posts/{post}/edit', [PostController::class, 'update'])->name('posts.update');
     Route::post('/posts/{post}/destroy', [PostController::class, 'destroy'])->name('posts.destroy');
     Route::post('/posts/{post}/media/destroy/{id}', [PostController::class, 'destroyMedia'])->name('posts.media.destroy');
+});
+
+Route::middleware('auth')->group(function () {
+    Route::get('/users', [UserController::class, 'index'])->name('users.index');
+    Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
+    Route::post('/users/create', [UserController::class, 'store'])->name('users.store');
+    Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
+    Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
+    Route::post('/users/{user}/edit', [UserController::class, 'update'])->name('users.update');
+    Route::post('/users/{user}/destroy', [UserController::class, 'destroy'])->name('users.destroy');
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
 });
 
 Route::post('/updateUserPreferences', [ProfileController::class, 'updatePreferences'])->name('updateUserPreferences');

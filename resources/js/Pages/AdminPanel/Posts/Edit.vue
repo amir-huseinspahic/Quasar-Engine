@@ -1,6 +1,6 @@
 <script setup>
     import { ref } from 'vue'
-    import { Link, useForm } from '@inertiajs/vue3'
+    import { Link, router, useForm, usePage } from '@inertiajs/vue3'
 
     import PrimaryButton from '@/Components/Base/PrimaryButton.vue'
     import InputError from '@/Components/Base/InputError.vue'
@@ -55,6 +55,13 @@
     const deleteMediaFrom = useForm({
         media_id: null
     });
+
+    function back() {
+        let urlPrev = usePage().props.urlPrev;
+
+        if (urlPrev !== 'empty') window.history.back();
+        else router.visit(route('users.index'));
+    }
 
     function onThumbnailSelected (event) {
         const reader = new FileReader();
@@ -139,9 +146,7 @@
     <AuthenticatedLayout :page-title="$t('Edit Post')">
 
         <section class="p-2 max-w-[1920px] flex py-3 justify-between">
-            <Link :href="route('posts.show', { post: post })">
-                <PrimaryButton type="button">{{ $t('Cancel') }}</PrimaryButton>
-            </Link>
+            <PrimaryButton type="button" @click="back">{{ $t('Cancel') }}</PrimaryButton>
         </section>
 
         <form class="space-y-8 max-w-7xl mx-auto p-2 my-6" @submit.prevent="editPostSubmit">

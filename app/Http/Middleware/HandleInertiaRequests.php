@@ -33,8 +33,8 @@ class HandleInertiaRequests extends Middleware
             ...parent::share($request),
             'auth' => [
                 'user' => $request->user(),
-                'user.settings' => $request->user()->settings
-            ],
+                'user.settings' => fn () => $request->user() !== null ? $request->user()->settings : null,
+            ]
         ];
     }
 }

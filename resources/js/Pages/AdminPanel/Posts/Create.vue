@@ -1,6 +1,6 @@
 <script setup>
     import { ref } from 'vue';
-    import { useForm, Link } from "@inertiajs/vue3";
+    import { useForm, Link, usePage, router } from '@inertiajs/vue3'
 
     import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
     import InputField from "@/Components/Base/InputField.vue";
@@ -12,7 +12,6 @@
 
     import { XMarkIcon, PlusIcon } from '@heroicons/vue/24/solid/index.js';
     import { ArrowUpOnSquareIcon } from '@heroicons/vue/24/outline/index.js';
-    import DangerButton from '@/Components/Base/DangerButton.vue'
 
     const props = defineProps({
         postCategories: {
@@ -82,11 +81,9 @@
                 });
             }.bind(this));
         }
-        console.log(postMedia.value);
     }
 
     function onImageDeselected (id) {
-        console.log(postMedia.value[id]);
         postMedia.value.splice(id, 1);
 
         if (postMedia.value.length < 1) {
@@ -94,8 +91,14 @@
         }
     }
 
+    function back() {
+        let urlPrev = usePage().props.urlPrev;
+
+        if (urlPrev !== 'empty') window.history.back();
+        else router.visit(route('users.index'));
+    }
+
     function prepareMedia () {
-        console.log(postMedia.value);
         createPostForm.media = [];
         for (let i = 0; i < postMedia.value.length; i++) {
             createPostForm.media[i] = postMedia.value[i].rawData;
@@ -118,9 +121,7 @@
 <template>
     <AuthenticatedLayout :page-title="$t('Create Post')">
         <section class="p-2 max-w-[1920px] flex py-3 justify-between">
-            <Link :href="route('posts.index')">
-                <PrimaryButton type="button">{{ $t('Cancel') }}</PrimaryButton>
-            </Link>
+            <PrimaryButton type="button" @click="back">{{ $t('Cancel') }}</PrimaryButton>
         </section>
 
         <form class="space-y-8 max-w-7xl mx-auto p-2 my-6" @submit.prevent="createPostSubmit" enctype="multipart/form-data">

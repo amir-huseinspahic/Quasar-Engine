@@ -1,17 +1,17 @@
 <?php
 
+use App\Http\Controllers\PostCategoriesController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/dashboard', function () {
-    return Inertia::render('test');
-})->name('dashboard');
+    return Inertia::render('AdminPanel/Dashboard');
+})->middleware(['auth', 'locale'])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
+Route::group(['middleware' => ['auth', 'permission:create posts', 'locale']], function () {
     Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
     Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create');
     Route::post('/posts/create', [PostController::class, 'store'])->name('posts.store');
@@ -20,9 +20,11 @@ Route::middleware('auth')->group(function () {
     Route::post('/posts/{post}/edit', [PostController::class, 'update'])->name('posts.update');
     Route::post('/posts/{post}/destroy', [PostController::class, 'destroy'])->name('posts.destroy');
     Route::post('/posts/{post}/media/destroy/{id}', [PostController::class, 'destroyMedia'])->name('posts.media.destroy');
+    Route::post('/posts/categories/create', [PostCategoriesController::class, 'store'])->name('posts.categories.store');
+    Route::post('/posts/categories/{id}/destroy', [PostCategoriesController::class, 'destroy'])->name('posts.categories.destroy');
 });
 
-Route::middleware('auth')->group(function () {
+Route::group(['middleware' => ['auth', 'role_or_permission:admin|view users', 'locale']], function () {
     Route::get('/users', [UserController::class, 'index'])->name('users.index');
     Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
     Route::post('/users/create', [UserController::class, 'store'])->name('users.store');
@@ -30,8 +32,20 @@ Route::middleware('auth')->group(function () {
     Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
     Route::post('/users/{user}/edit', [UserController::class, 'update'])->name('users.update');
     Route::post('/users/{user}/destroy', [UserController::class, 'destroy'])->name('users.destroy');
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
 });
+
+Route::group(['middleware' => ['auth', 'locale']], function () {
+    Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
+    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::post('/profile/edit', [ProfileController::class, 'update'])->name('profile.update');
+});
+
+
+Route::group(['middleware' => ['auth', 'role_or_permission:admin', 'locale']], function () {
+
+});
+
+
 
 Route::post('/updateUserPreferences', [ProfileController::class, 'updatePreferences'])->name('updateUserPreferences');
 

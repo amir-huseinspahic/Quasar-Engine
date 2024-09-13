@@ -17,6 +17,13 @@ class UserSettings extends Model {
         'items_per_page',
         'page_layout',
         'time_format',
-        'date_format'
+        'date_format',
+        'show_private_posts'
     ];
+
+    protected function casts() : array {
+        return [
+            'show_private_posts' => 'boolean'
+        ];
+    }
 }

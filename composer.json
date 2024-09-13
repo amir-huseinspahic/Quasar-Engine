@@ -11,11 +11,14 @@
         "laravel/framework": "^11.9",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
+        "laravolt/avatar": "^5.1",
+        "spatie/laravel-permission": "^6.9",
         "spatie/laravel-sluggable": "^3.6",
         "stevebauman/purify": "^6.2",
         "tightenco/ziggy": "^2.0"
     },
     "require-dev": {
+        "barryvdh/laravel-debugbar": "^3.13",
         "fakerphp/faker": "^1.23",
         "jedymatt/laravel-sail-env": "^1.1",
         "laravel/breeze": "^2.0",
@@ -30,7 +33,10 @@
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/"
-        }
+        },
+        "files": [
+            "bootstrap/helpers.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {

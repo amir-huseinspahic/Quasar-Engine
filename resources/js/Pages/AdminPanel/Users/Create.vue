@@ -8,10 +8,15 @@ import { router, useForm, usePage } from '@inertiajs/vue3'
     import InputError from '@/Components/Base/InputError.vue';
     import SelectField from '@/Components/Base/SelectField.vue'
     import dayjs from 'dayjs'
+import { capitalize } from '@vue/shared'
 
 
     const props = defineProps({
         timezone_list: {
+            type: [Object, Array],
+            required: true
+        },
+        roles: {
             type: [Object, Array],
             required: true
         }
@@ -22,6 +27,7 @@ import { router, useForm, usePage } from '@inertiajs/vue3'
         email: '',
         password: '',
         password_confirmation: '',
+        role: '',
         locale: '',
         timezone: '',
         date_format: '',
@@ -64,7 +70,7 @@ import { router, useForm, usePage } from '@inertiajs/vue3'
             textBS: '24-satni format'
         },
         {
-            value: 'hh:mm:ss',
+            value: 'h:mm:ss A',
             text: '12-hour clock',
             textBS: '12-satni format'
         }
@@ -136,7 +142,6 @@ import { router, useForm, usePage } from '@inertiajs/vue3'
 
             <div>
                 <InputLabel for="password_confirmation">{{ $t('Confirm password') }}<span class="text-red-500">*</span></InputLabel>
-
                 <InputField
                     id="password_confirmation"
                     type="password"
@@ -144,8 +149,20 @@ import { router, useForm, usePage } from '@inertiajs/vue3'
                     v-model="createUserForm.password_confirmation"
                     required
                 />
-
                 <InputError class="mt-2" :message="createUserForm.errors.password_confirmation" />
+            </div>
+
+            <div>
+                <InputLabel for="role">{{ $t('Role') }}<span class="text-red-500">*</span></InputLabel>
+                <select class="border border-gray-300 mt-1 block w-full focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm transition-colors ease-out"
+                        id="role"
+                        required
+                        v-model="createUserForm.role">
+                    <template v-for="role in props.roles">
+                        <option :value="role">{{ capitalize(role) }}</option>
+                    </template>
+                </select>
+                <InputError class="mt-2" :message="createUserForm.errors.role" />
             </div>
 
             <div>

@@ -1,11 +1,13 @@
 <script setup>
     import { Link, router, useForm, usePage } from '@inertiajs/vue3'
     import { ref } from 'vue';
+    import { capitalize } from '@vue/shared';
 
     import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
     import PrimaryButton from '@/Components/Base/PrimaryButton.vue';
     import DangerButton from '@/Components/Base/DangerButton.vue';
     import Modal from '@/Components/Base/Modal.vue';
+    import { getHumanReadableTime } from '@/Composables/GetHumanReadableTime.js'
 
     const props = defineProps({
         user: {
@@ -14,17 +16,10 @@
         }
     });
 
+    const { getHRT } = getHumanReadableTime();
+
     const deleteUserForm = useForm ({});
     const isDeletionModalShown = ref(false);
-
-
-    function getHRT(datetime) {
-        return dayjs(datetime)
-            .tz(usePage().props.auth.user.settings.timezone)
-            .local(usePage().props.auth.user.settings.locale)
-            .format(usePage().props.auth.user.settings.date_format +  ", " + usePage().props.auth.user.settings.time_format);
-    }
-
 
     function showModal() {
         isDeletionModalShown.value = true;
@@ -44,6 +39,7 @@
     const deleteUserSubmit = () => {
         deleteUserForm.post(route('users.destroy', { user: props.user }));
     }
+
 </script>
 
 <template>
@@ -79,11 +75,16 @@
                             </p>
                             <p class="ml-3">
                                 <span class="text-gray-800 font-bold">{{ $t('Role: ') }}</span>
-                                <span class="text-green-500">Admin</span>
+                                <span class="text-green-500">{{ capitalize(user.roles[0].name) }}</span>
                             </p>
                             <p class="ml-3">
                                 <span class="text-gray-800 font-bold">{{ $t('Created at: ') }}</span>
-                                {{ getHRT(user.created_at) }}
+                                {{
+                                    getHRT(user.created_at,
+                                        $page.props.auth.user.settings.timezone,
+                                        $page.props.auth.user.settings.date_format,
+                                        $page.props.auth.user.settings.time_format)
+                                }}
                             </p>
                         </div>
                     </div>
@@ -114,7 +115,7 @@
 
         <Modal :show="isDeletionModalShown" @close="closeModal">
             <div class="p-6">
-                <h2 class="text-lg font-medium text-gray-100">
+                <h2 class="text-lg font-medium">
                     {{ $t('Are you sure you want to delete this user?') }}
                 </h2>
                 <h2 class="text-lg font-medium text-red-500">

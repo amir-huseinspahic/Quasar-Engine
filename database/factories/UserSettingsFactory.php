@@ -20,9 +20,10 @@ class UserSettingsFactory extends Factory
             'locale' => 'en',
             'timezone' => $this->faker->timezone(),
             'items_per_page' => $this->faker->randomElement([ 5, 10, 25, 50, 100 ]),
-            'page_layout' => 'table',
-            'date_format' => $this->faker->date(),
-            'time_format' => $this->faker->time(),
+            'page_layout' => $this->faker->randomElement(['table', 'cards']),
+            'date_format' => $this->faker->randomElement(['DD-MM-YYYY', 'YYYY-MM-DD', 'MM-DD-YYYY']),
+            'time_format' => $this->faker->randomElement(['HH:mm:ss', 'h:mm:ss A']),
+            'show_private_posts' => $this->faker->boolean(),
         ];
     }
 }

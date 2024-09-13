@@ -1,6 +1,7 @@
 <script setup>
     import { Link, router, useForm, usePage } from '@inertiajs/vue3'
     import dayjs from 'dayjs'
+    import { capitalize } from '@vue/shared';
 
     import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
     import PrimaryButton from '@/Components/Base/PrimaryButton.vue';
@@ -17,6 +18,10 @@
         timezone_list: {
             type: [Array, Object],
             required: true
+        },
+        roles_list: {
+            type: [Array, Object],
+            required: true
         }
     });
 
@@ -26,6 +31,7 @@
         email: props.user.email,
         password: '',
         password_confirmation: '',
+        role: '',
         locale: props.user.settings.locale,
         timezone: props.user.settings.timezone,
         date_format: props.user.settings.date_format,
@@ -68,7 +74,7 @@
             textBS: '24-satni format'
         },
         {
-            value: 'hh:mm:ss',
+            value: 'h:mm:ss A',
             text: '12-hour clock',
             textBS: '12-satni format'
         }
@@ -142,6 +148,18 @@
                     class="mt-1 block w-full"
                     v-model="editUserForm.password_confirmation" />
                 <InputError class="mt-2" :message="editUserForm.errors.password_confirmation"></InputError>
+            </div>
+
+            <div>
+                <InputLabel for="role">{{ $t('Role') }}</InputLabel>
+                <select class="border border-gray-300 mt-1 block w-full focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm transition-colors ease-out"
+                        id="role">
+                    <option disabled selected value style="display:none"></option>
+                    <template v-for="role in props.roles_list">
+                        <option :value="role">{{ capitalize(role) }}</option>
+                    </template>
+                </select>
+                <InputError class="mt-2" :message="editUserForm.errors.role" />
             </div>
 
             <div>

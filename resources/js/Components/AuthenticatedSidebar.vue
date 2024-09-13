@@ -2,6 +2,8 @@
 
     import { XCircleIcon, CogIcon, ChevronDoubleRightIcon, HomeIcon, NewspaperIcon, UsersIcon, Cog8ToothIcon } from '@heroicons/vue/24/solid/index.js'
     import AuthenticatedSidebarPageLink from '@/Components/AuthenticatedSidebarPageLink.vue'
+    import { ref } from 'vue'
+    import { usePage } from '@inertiajs/vue3'
 
     const props = defineProps({
         sidebarExpanded : {
@@ -12,7 +14,6 @@
     });
 
     const emits = defineEmits(['toggleSidebarEmit']);
-
 </script>
 
 <template>
@@ -47,7 +48,7 @@
                 </span>
             </AuthenticatedSidebarPageLink>
 
-            <AuthenticatedSidebarPageLink class="mt-1" :href="route('users.index')" :active="route().current('users.*')">
+            <AuthenticatedSidebarPageLink class="mt-1" v-if="$page.props.auth.permissions.includes('view users')" :href="route('users.index')" :active="route().current('users.*')">
                 <UsersIcon class="size-8 min-w-8 m-2" />
                 <span class="my-auto whitespace-nowrap transition-all ease-out duration-200">
                     Users
@@ -105,15 +106,15 @@
             <AuthenticatedSidebarPageLink :href="route('dashboard')" :active="route().current('dashboard')">
                 <HomeIcon class="size-8 min-w-8 m-2" />
                 <span class="my-auto text-lg whitespace-nowrap transition-all ease-out duration-200"
-                      :class="sidebarExpanded ? 'opacity-100' : 'opacity-0'">
+                      :class="sidebarExpanded ? 'opacity-100 visible' : 'opacity-0 invisible'">
                     {{ $t('Dashboard') }}
                 </span>
             </AuthenticatedSidebarPageLink>
 
-            <AuthenticatedSidebarPageLink class="mt-1" :href="route('users.index')" :active="route().current('users.*')">
+            <AuthenticatedSidebarPageLink class="mt-1" v-if="$page.props.auth.permissions.includes('view users')" :href="route('users.index')" :active="route().current('users.*')">
                 <UsersIcon class="size-8 min-w-8 m-2" />
                 <span class="my-auto text-lg whitespace-nowrap transition-all ease-out duration-200"
-                      :class="sidebarExpanded ? 'opacity-100' : 'opacity-0'">
+                      :class="sidebarExpanded ? 'opacity-100 visible' : 'opacity-0 invisible'">
                     {{ $t('Users') }}
                 </span>
             </AuthenticatedSidebarPageLink>
@@ -121,7 +122,7 @@
             <AuthenticatedSidebarPageLink class="mt-1" :href="route('posts.index')" :active="route().current('posts.*')">
                 <NewspaperIcon class="size-8 min-w-8 m-2" />
                 <span class="my-auto text-lg whitespace-nowrap transition-all ease-out duration-200"
-                      :class="sidebarExpanded ? 'opacity-100' : 'opacity-0'">
+                      :class="sidebarExpanded ? 'opacity-100 visible' : 'opacity-0 invisible'">
                     {{ $t('Posts') }}
                 </span>
             </AuthenticatedSidebarPageLink>
@@ -129,7 +130,7 @@
             <AuthenticatedSidebarPageLink class="mt-auto" href="">
                 <Cog8ToothIcon class="size-8 min-w-8 m-2" />
                 <span class="my-auto text-lg whitespace-nowrap transition-all ease-out duration-200"
-                      :class="sidebarExpanded ? 'opacity-100' : 'opacity-0'">
+                      :class="sidebarExpanded ? 'opacity-100 visible' : 'opacity-0 invisible'">
                     {{ $t('Settings') }}
                 </span>
             </AuthenticatedSidebarPageLink>

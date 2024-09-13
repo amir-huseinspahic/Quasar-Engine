@@ -38,6 +38,8 @@
 
     const postMedia = ref([]);
 
+    console.log(usePage().props);
+
     function onThumbnailSelected (event) {
         const reader = new FileReader();
         const imageData = event.target.files[0];
@@ -155,8 +157,10 @@
                     </select>
                 </div>
 
-                <div class="mt-8 lg:mt-0 lg:mx-auto lg:my-auto">
-                    <InputLabel for="published">{{ $t('Visibility') }}<span class="text-red-500">*</span></InputLabel>
+                <div class="mt-8 lg:mt-0 lg:mx-auto lg:my-auto" v-if="$page.props.auth.permissions.includes('publish posts')">
+                    <InputLabel for="published">
+                        {{ $t('Visibility') }}<span class="text-red-500">*</span>
+                    </InputLabel>
                     <label class="flex items-center">
                         <Checkbox id="published" name="published" v-model:checked="createPostForm.published" />
                         <span class="ms-2 select-none" v-if="createPostForm.published">{{ $t('Post will be visible on the front page.') }}</span>

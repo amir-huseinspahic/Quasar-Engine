@@ -30,6 +30,7 @@ class PostFactory extends Factory
             'content' => $this->faker->paragraphs(rand(2, 10), true),
             'published' => $this->faker->boolean(),
             'thumbnail' => $this->faker->image(public_path() . '/media/posts/thumbnails', rand(50, 500), rand(50, 500), null, false),
+            'created_at' => $this->faker->dateTimeBetween('-1 year', 'now'),
         ];
     }
 }

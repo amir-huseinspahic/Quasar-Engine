@@ -32,9 +32,14 @@ class HandleInertiaRequests extends Middleware
         return [
             ...parent::share($request),
             'auth' => [
-                'user' => $request->user(),
-                'user.settings' => fn () => $request->user() !== null ? $request->user()->settings : null,
-            ]
+                'user' => $request->user() ? $request->user() : null,
+                'role' => $request->user() ? $request->user()->roles()->first()->name : null,
+                'permissions' => $request->user() ? $request->user()->getPermissionsViaRoles()->pluck('name')->toArray() : [],
+            ],
+            'flash' => fn () => [
+                'toasts' => $request->session()->get('toasts'),
+            ],
+            'guestLocale' => session()->get('locale') ?? app()->getLocale(),
         ];
     }
 }

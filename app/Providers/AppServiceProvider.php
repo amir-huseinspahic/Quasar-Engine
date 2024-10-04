@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Gate;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,6 +21,8 @@ class AppServiceProvider extends ServiceProvider
      * Bootstrap any application services.
      */
     public function boot(): void {
+        Paginator::useTailwind();
+
         Inertia::share([
             'urlPrev' => function () {
                 if (url()->previous() !== route('login') &&
@@ -29,5 +33,11 @@ class AppServiceProvider extends ServiceProvider
                 else return 'empty';
             }
         ]);
+
+        Gate::before(function ($user, $ability) {
+            if ($user->hasRole('root')) {
+                return true;
+            }
+        });
     }
 }

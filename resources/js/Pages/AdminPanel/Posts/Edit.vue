@@ -28,8 +28,6 @@
         }
     });
 
-    let thumbnailPath = '/media/posts/thumbnails/';
-
     const thumbnail = ref({
         "rawData": null,
         "preview": null,
@@ -224,9 +222,9 @@
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-2">
-                <div class="">
+                <div>
                     <InputLabel for="thumbnail" :value="$t('Current thumbnail')" />
-                    <img class="rounded-xl shadow-lg object-cover" :src="thumbnailPath + post.thumbnail" alt="">
+                    <img class="rounded-xl shadow-lg object-cover" :src="post.thumbnail" alt="">
                 </div>
 
                 <div>

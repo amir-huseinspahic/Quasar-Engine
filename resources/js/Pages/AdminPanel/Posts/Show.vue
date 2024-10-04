@@ -2,6 +2,8 @@
     import { ref } from 'vue'
     import { Link, router, useForm, usePage } from '@inertiajs/vue3';
 
+    import { getHumanReadableTime } from '@/Composables/GetHumanReadableTime.js';
+
     import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
     import PrimaryButton from '@/Components/Base/PrimaryButton.vue';
     import DangerButton from '@/Components/Base/DangerButton.vue';
@@ -19,18 +21,12 @@
         }
     });
 
+    console.log(props.post)
 
-    let thumbnailPath = '/media/posts/thumbnails/' + props.post.thumbnail;
+    const { getHRT } = getHumanReadableTime();
+
     const deletePostForm = useForm ({});
     const isDeletionModalShown = ref(false);
-
-
-    function getHRT(datetime) {
-        return dayjs(datetime)
-            .tz(usePage().props.auth.user.settings.timezone)
-            .local(usePage().props.auth.user.settings.locale)
-            .format(usePage().props.auth.user.settings.date_format +  ", " + usePage().props.auth.user.settings.time_format);
-    }
 
     function back() {
         let urlPrev = usePage().props.urlPrev;
@@ -92,7 +88,14 @@
                             <Link :href="route('users.show', { user: post.author })" class="font-bold text-indigo-600">
                             {{ post.author.name }}
                             </Link></p>
-                        <p>{{ $t('Posted at: ') }}<span class="font-bold">{{ getHRT(post.created_at) }}</span></p>
+                        <p>{{ $t('Posted at: ') }}<span class="font-bold">
+                            {{
+                                getHRT(post.created_at,
+                                    $page.props.auth.user.settings.timezone,
+                                    $page.props.auth.user.settings.date_format,
+                                    $page.props.auth.user.settings.time_format)
+                            }}
+                        </span></p>
                     </div>
                 </div>
                 <div class="prose lg:prose-lg max-w-none p-2">
@@ -100,14 +103,14 @@
                     <p v-html="post.forewords"></p>
                 </div>
                 <div class="w-11/12 mx-auto lg:w-1/2 my-6">
-                    <img v-if="post.thumbnail" class="rounded-md shadow-lg object-cover w-full max-h-[600px]" :src="thumbnailPath" alt="">
+                    <img v-if="post.thumbnail" class="rounded-md shadow-lg object-cover w-full max-h-[600px]" :src="props.post.thumbnail" alt="">
                 </div>
                 <div class="prose lg:prose-lg max-w-none p-2">
                     <p v-html="post.content"></p>
                 </div>
                 <div class="grid grid-cols-2 lg:grid-cols-3 gap-1 max-w-2xl mx-auto p-2 m-2 rounded">
                     <div class="relative" v-for="images in post.media">
-                        <img :src="'/media/posts/media/' + images.name" alt="">
+                        <img :src="images.path" alt="">
                     </div>
                 </div>
             </div>
@@ -115,7 +118,7 @@
 
         <Modal :show="isDeletionModalShown" @close="closeModal">
             <div class="p-6">
-                <h2 class="text-lg font-medium text-gray-700 dark:text-gray-100">
+                <h2 class="text-lg font-medium">
                     {{ $t('Are you sure you want to delete this post?') }}
                 </h2>
                 <div class="mt-6 flex justify-end">

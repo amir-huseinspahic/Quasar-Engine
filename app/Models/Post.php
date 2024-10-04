@@ -37,11 +37,20 @@ class Post extends Model {
         'post_category_id'
     ];
 
-    protected $casts = [
-        'published' => 'boolean',
-        'forewords'=> PurifyHtmlOnGet::class,
-        'content' => PurifyHtmlOnGet::class,
-    ];
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'published' => 'boolean',
+            'forewords'=> PurifyHtmlOnGet::class,
+            'content' => PurifyHtmlOnGet::class,
+        ];
+    }
 
     public function getSlugOptions() : SlugOptions {
         return SlugOptions::create()

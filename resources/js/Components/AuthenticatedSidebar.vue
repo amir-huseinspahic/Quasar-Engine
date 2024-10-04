@@ -1,6 +1,6 @@
 <script setup>
 
-    import { XCircleIcon, CogIcon, ChevronDoubleRightIcon, HomeIcon, NewspaperIcon, UsersIcon, Cog8ToothIcon } from '@heroicons/vue/24/solid/index.js'
+    import { XCircleIcon, PhotoIcon, ChevronDoubleRightIcon, HomeIcon, NewspaperIcon, UsersIcon, Cog8ToothIcon } from '@heroicons/vue/24/solid/index.js'
     import AuthenticatedSidebarPageLink from '@/Components/AuthenticatedSidebarPageLink.vue'
     import { ref } from 'vue'
     import { usePage } from '@inertiajs/vue3'
@@ -26,7 +26,7 @@
 
             <!--    Sidebar Header    -->
             <div class="flex">
-                <CogIcon class="size-10 min-w-10 m-1" />
+                <img class="h-10 w-auto min-h-10 m-1" src="/media/app/logo.png" alt="logo">
                 <span class="my-auto whitespace-nowrap select-none text-xl bg-gradient-to-r from-indigo-500 to-red-500 bg-clip-text text-transparent font-semibold transition-all ease-out duration-200"
                       :class="sidebarExpanded ? 'opacity-100' : 'opacity-0'">
                     QuasarEngine
@@ -44,28 +44,35 @@
             <AuthenticatedSidebarPageLink :href="route('dashboard')" :active="route().current('dashboard')">
                 <HomeIcon class="size-8 min-w-8 m-2" />
                 <span class="my-auto whitespace-nowrap transition-all ease-out duration-200">
-                    Dashboard
+                    {{ $t('Dashboard') }}
                 </span>
             </AuthenticatedSidebarPageLink>
 
-            <AuthenticatedSidebarPageLink class="mt-1" v-if="$page.props.auth.permissions.includes('view users')" :href="route('users.index')" :active="route().current('users.*')">
+            <AuthenticatedSidebarPageLink class="mt-1" v-if="$page.props.auth.permissions.includes('view users') || $page.props.auth.role === 'root'" :href="route('users.index')" :active="route().current('users.*')">
                 <UsersIcon class="size-8 min-w-8 m-2" />
                 <span class="my-auto whitespace-nowrap transition-all ease-out duration-200">
-                    Users
+                    {{ $t('Users') }}
                 </span>
             </AuthenticatedSidebarPageLink>
 
             <AuthenticatedSidebarPageLink class="mt-1" :href="route('posts.index')" :active="route().current('posts.*')">
                 <NewspaperIcon class="size-8 min-w-8 m-2" />
                 <span class="my-auto whitespace-nowrap transition-all ease-out duration-200">
-                    Posts
+                    {{ $t('Posts')  }}
+                </span>
+            </AuthenticatedSidebarPageLink>
+
+            <AuthenticatedSidebarPageLink class="mt-1" v-if="$page.props.auth.permissions.includes('add image to gallery') || $page.props.auth.role === 'root'" :href="route('gallery.index')" :active="route().current('gallery.*')">
+                <PhotoIcon class="size-8 min-w-8 m-2" />
+                <span class="my-auto whitespace-nowrap transition-all ease-out duration-200">
+                    {{ $t('Gallery') }}
                 </span>
             </AuthenticatedSidebarPageLink>
 
             <AuthenticatedSidebarPageLink class="mt-auto" href="">
                 <Cog8ToothIcon class="size-8 min-w-8 m-2" />
                 <span class="my-auto whitespace-nowrap transition-all ease-out duration-200">
-                    Settings
+                    {{ $t('Settings') }}
                 </span>
             </AuthenticatedSidebarPageLink>
         </div>
@@ -78,7 +85,7 @@
 
         <!--    Sidebar Header    -->
         <div class="flex">
-            <CogIcon class="size-10 min-w-10 m-1" />
+            <img class="h-10 w-auto min-h-10 m-1" src="/media/app/logo.png" alt="logo">
             <span class="my-auto whitespace-nowrap select-none text-2xl bg-gradient-to-r from-indigo-500 to-red-500 bg-clip-text text-transparent font-semibold transition-all ease-out duration-200"
                   :class="sidebarExpanded ? 'opacity-100' : 'opacity-0'">
                 QuasarEngine
@@ -111,7 +118,7 @@
                 </span>
             </AuthenticatedSidebarPageLink>
 
-            <AuthenticatedSidebarPageLink class="mt-1" v-if="$page.props.auth.permissions.includes('view users')" :href="route('users.index')" :active="route().current('users.*')">
+            <AuthenticatedSidebarPageLink class="mt-1" v-if="$page.props.auth.permissions.includes('view users') || $page.props.auth.role === 'root'" :href="route('users.index')" :active="route().current('users.*')">
                 <UsersIcon class="size-8 min-w-8 m-2" />
                 <span class="my-auto text-lg whitespace-nowrap transition-all ease-out duration-200"
                       :class="sidebarExpanded ? 'opacity-100 visible' : 'opacity-0 invisible'">
@@ -124,6 +131,14 @@
                 <span class="my-auto text-lg whitespace-nowrap transition-all ease-out duration-200"
                       :class="sidebarExpanded ? 'opacity-100 visible' : 'opacity-0 invisible'">
                     {{ $t('Posts') }}
+                </span>
+            </AuthenticatedSidebarPageLink>
+
+            <AuthenticatedSidebarPageLink class="mt-1" v-if="$page.props.auth.permissions.includes('add image to gallery') || $page.props.auth.role === 'root'" :href="route('gallery.index')" :active="route().current('gallery.*')">
+                <PhotoIcon class="size-8 min-w-8 m-2" />
+                <span class="my-auto text-lg whitespace-nowrap transition-all ease-out duration-200"
+                      :class="sidebarExpanded ? 'opacity-100 visible' : 'opacity-0 invisible'">
+                    {{ $t('Gallery') }}
                 </span>
             </AuthenticatedSidebarPageLink>
 

@@ -1,6 +1,5 @@
 <script setup>
     import { Link, router, useForm, usePage } from '@inertiajs/vue3'
-    import dayjs from 'dayjs'
     import { capitalize } from '@vue/shared';
 
     import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
@@ -9,6 +8,13 @@
     import InputLabel from '@/Components/Base/InputLabel.vue';
     import InputError from '@/Components/Base/InputError.vue';
     import SelectField from '@/Components/Base/SelectField.vue'
+
+    import dayjs from 'dayjs';
+    import dayjsUTC from 'dayjs/plugin/utc';
+    import dayjsTimezone from 'dayjs/plugin/timezone';
+
+    dayjs.extend(dayjsUTC);
+    dayjs.extend(dayjsTimezone);
 
     const props = defineProps({
         user: {

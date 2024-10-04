@@ -1,4 +1,19 @@
 {
+    "January" : "Januar",
+    "February" : "Februar",
+    "March" : "Mart",
+    "April" : "April",
+    "May" : "Maj",
+    "June" : "Juni",
+    "July" : "Juli",
+    "August" : "August",
+    "September" : "Septembar",
+    "October" : "Oktobar",
+    "November" : "Novembar",
+    "December" : "Decembar",
+
+
+
     "Search": "Pretraži",
     "Search by Title, Author": "Pretraži po naslovu, autoru",
     "Search by Name, E-mail": "Pretraži po imenu, email-u",
@@ -87,6 +102,19 @@
     "Month-Day-Year": "Mjesec-Dan-Godina",
     "24-hour format": "24-satni format",
     "12-hour format": "12-satni format",
+    "Last active at: " : "Zadnji put aktivni: ",
+    "Welcome :user" : "Dobrodošli :user",
+    "Posted" : "Postavljeno",
+    "Laravel version:" : "Laravel verzija:",
+    "PHP version:" : "PHP verzija:",
+    "Last login at:" : "Zadnja prijava:",
+    "Add Image" : "Dodaj sliku",
+    "Picture" : "Slika",
+    "Select a picture" : "Izaberite sliku",
+    "Accepted formats:" : "Prihvaćene ekstenzije:",
+    "Description (optional)" : "Opis (neobavezno)",
+    "Remember me" : "Zapamti me",
+    "Log in" : "Prijavi me",
 
     "Post will be visible on the front page.": "Objava će biti vidljiva na početnoj stranici.",
     "Post will not be visible on the front page.": "Objava neće biti vidljiva na početnoj stranici.",
@@ -96,5 +124,35 @@
     "This may take a few minutes, please don't close this page.": "Ovo bi moglo potrajati nekoliko minuta, molimo ne zatvarajte ovu stranicu.",
     "Are you sure you want to delete this post?": "Da li ste sigurni da želite obrisati ovu objavu?",
     "Are you sure you want to delete this user?": "Da li ste sigurni da želite obrisati ovog korisnika?",
-    "Deleting this user will also delete any posts this user has made!": "Sve objave koje je ovaj korisnik postavio će biti obrisane!"
+    "Deleting this user will also delete any posts this user has made!": "Sve objave koje je ovaj korisnik postavio će biti obrisane!",
+    "Deleting this category will also delete any posts with this category." : "Brisanjem ove kategorije će također biti obrisane sve objave sa ovom kategorijom.",
+    "Are you sure you want to continue?" : "Da li ste sigurni da želite nastaviti?",
+    "I understand and want to continue" : "Razumijem i želim nastaviti",
+    "Posts published this year by month" : "Objave postavljene trenutne godine po mjesecu",
+    "Are you sure you want to delete this image?" : "Da li ste sigurni da želite obrisati ovu sliku?",
+    "Yes, I'm sure" : "Da, siguran sam",
+
+
+
+
+
+
+
+    "Landing" : "Početak",
+    "About": "O aplikaciji",
+    "News": "Novosti",
+    "Gallery": "Galerija",
+
+    "Software engineering bachelor thesis" : "Aplikacija za diplomski rad",
+    "A web app built on the VILT stack" : "Web aplikacija napravljena na VILT stack-u",
+
+    "An app made with " : "Aplikacija napravljena sa ",
+    " as the backend and " : " kao backend i ",
+    " as the frontend, glued together with " : " kao frontend, koji su spojeni sa ",
+    " Responsive design and styling done with " : "Responzivni dizaj napravljen sa ",
+
+    "Made as a baseline for common requests customers have. Managing users, writing posts, with localization and timezone support!" : "Upravljanje korisnicima, postavljenje objava i mnoge druge funkcionalnosti koje korisnici često zahtjevaju, sa podrškom za različite jezike i vremenske zone!",
+    "No news posted yet. Check again soon!" : "Nema postavljenih novosti. Provjerite kasnije ponovo!",
+    "Writer:" : "Autor:",
+    "Made with :heart by Amir Huseinspahić" : "Uradio Amir Huseinspahić sa :heart"
 }

@@ -6,7 +6,6 @@ use App\Http\Requests\PostStoreRequest;
 use App\Http\Requests\PostUpdateRequest;
 use App\Models\Post;
 use App\Models\PostCategory;
-use App\Models\PostImage;
 use App\Models\User;
 use App\Models\UserPreferences;
 use Exception;
@@ -15,7 +14,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Storage;
-
 use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -27,7 +25,7 @@ class PostController extends Controller {
      * Display a listing of the resource.
      */
     public function index() : Response {
-        $userSettings = auth()->user()->settings->first();
+        $userSettings = auth()->user()->settings;
 
         $posts = Post::query()
             ->orderBy('created_at', 'desc')
@@ -51,7 +49,7 @@ class PostController extends Controller {
             ->when(Request::input('toDate'), function ($query, $toDate) {
                 $query->whereDate('created_at', '<=', $toDate);
             })
-            ->paginate($userSettings->items_per_page)
+            ->paginate($userSettings['items_per_page'])
             ->withQueryString()
             ->through(fn($post) => [
                 'id' => $post->id,
@@ -62,9 +60,6 @@ class PostController extends Controller {
                 'published' => $post->published,
                 'thumbnail' => $post->thumbnail,
             ]);
-
-        unset($userSettings);
-
 
         return Inertia::render('AdminPanel/Posts/Index', [
             'posts' => $posts,
@@ -94,7 +89,11 @@ class PostController extends Controller {
             if ($validated['thumbnail']) {
                 $thumbnailName = Str::of($validated['title'])->slug('-') . '-' . time() . '.' . $validated['thumbnail']->getClientOriginalExtension();
                 $validated['thumbnail']->storeAs('thumbnails', $thumbnailName, ['disk' => 'post-uploads']);
+
+                $thumbnailName = '/media/posts/thumbnails/' . $thumbnailName;
             }
+            else $thumbnailName = '/media/app/panel.png';
+
 
             $post = Post::create([
                 'user_id' => Auth::id(),
@@ -180,6 +179,12 @@ class PostController extends Controller {
             if ($validated['new_thumbnail']) {
                 $newThumbnailName = Str::of($validated['title'])->slug('-') . '-' . time() . '.' . $validated['new_thumbnail']->getClientOriginalExtension();
                 $validated['new_thumbnail']->storeAs('thumbnails', $newThumbnailName, ['disk' => 'post-uploads']);
+
+                if ($validated['thumbnail'] !== '/media/app/panel.png' && file_exists(public_path() . $validated['thumbnail'])) {
+                    unlink(public_path() . $validated['thumbnail']);
+                }
+
+                $newThumbnailName = '/media/posts/thumbnails/' . $newThumbnailName;
             }
 
             if ($validated['new_media']) {
@@ -218,14 +223,20 @@ class PostController extends Controller {
         try {
             $post->media;
 
-            if ($post['thumbnail']) {
-                Storage::disk('post-uploads')->delete('media/posts/thumbnails/' . $post['thumbnail']);
+            if ($post['thumbnail'] && $post['thumbnail'] != '/media/app/panel.png') {
+                //Storage::disk('post-uploads')->delete('media/posts/thumbnails/' . $post['thumbnail']);
+                if (file_exists(public_path() . $post['thumbnail'])) {
+                    unlink(public_path() . $post['thumbnail']);
+                }
             }
 
             if ($post['media']) {
                 foreach ($post['media'] as $media) {
                     $post->media()->delete();
-                    Storage::disk('post-uploads')->delete('media/posts/media/' . $media->name);
+                    //Storage::disk('post-uploads')->delete('media/posts/media/' . $media->name);
+                    if (file_exists(public_path() . $media->path)) {
+                        unlink(public_path() . $media->path);
+                    }
                 }
             }
 
@@ -239,7 +250,10 @@ class PostController extends Controller {
     }
 
     public function destroyMedia(Post $post, int $mediaId) : RedirectResponse {
-        $post->media()->find($mediaId)->delete();
+        $picture = $post->media()->find($mediaId);
+
+        unlink(public_path() . $picture->path);
+        $picture->delete();
 
         return Redirect::route('posts.edit', ['post' => $post]);
     }

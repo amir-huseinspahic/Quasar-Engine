@@ -54,6 +54,11 @@ return [
             'root' => public_path() . '/media/users',
         ],
 
+        'gallery_uploads' => [
+            'driver' => 'local',
+            'root' => public_path() . '/media/',
+        ],
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),

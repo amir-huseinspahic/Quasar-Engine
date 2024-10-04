@@ -16,7 +16,7 @@
         }
     });
 
-    const { getHRT } = getHumanReadableTime();
+    const { getHRT, getTimeFromNow } = getHumanReadableTime();
 
     const deleteUserForm = useForm ({});
     const isDeletionModalShown = ref(false);
@@ -39,6 +39,8 @@
     const deleteUserSubmit = () => {
         deleteUserForm.post(route('users.destroy', { user: props.user }));
     }
+
+    console.log(usePage().props)
 
 </script>
 
@@ -68,16 +70,16 @@
                 <div class="lg:flex lg:flex-row justify-evenly">
                     <div>
                         <h1 class="mt-4 mb-1 text-lg">{{ $t('Basic info') }}</h1>
-                        <div class="space-y-2">
-                            <p class="ml-3">
+                        <div class="space-y-2 ml-3">
+                            <p>
                                 <span class="text-gray-800 font-bold">E-mail: </span>
                                 {{ user.email }}
                             </p>
-                            <p class="ml-3">
+                            <p>
                                 <span class="text-gray-800 font-bold">{{ $t('Role: ') }}</span>
                                 <span class="text-green-500">{{ capitalize(user.roles[0].name) }}</span>
                             </p>
-                            <p class="ml-3">
+                            <p>
                                 <span class="text-gray-800 font-bold">{{ $t('Created at: ') }}</span>
                                 {{
                                     getHRT(user.created_at,
@@ -86,16 +88,20 @@
                                         $page.props.auth.user.settings.time_format)
                                 }}
                             </p>
+                            <p>
+                                <span class="text-gray-800 font-bold">{{ $t('Last active at: ') }}</span>
+                                {{ getTimeFromNow(props.user.last_active_at, $page.props.auth.user.settings.locale, $page.props.auth.user.settings.timezone) }}
+                            </p>
                         </div>
                     </div>
                     <div>
                         <h1 class="mt-6 mb-1 text-lg lg:mt-4">{{ $t('Preferences') }}</h1>
-                        <div class="space-y-2">
-                            <p class="ml-3">
+                        <div class="space-y-2 ml-3">
+                            <p>
                                 <span class="text-gray-800 font-bold">{{ $t('Language: ') }}</span>
                                 {{ user.settings.locale === 'bs' ? 'Bosanski' : 'English' }}
                             </p>
-                            <p class="ml-3">
+                            <p>
                                 <span class="text-gray-800 font-bold">{{ $t('Timezone: ') }}</span>
                                 {{ user.settings.timezone }}
                             </p>

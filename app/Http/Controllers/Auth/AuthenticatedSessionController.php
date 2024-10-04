@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -27,6 +28,7 @@ class AuthenticatedSessionController extends Controller
 
     /**
      * Handle an incoming authentication request.
+     * @throws ValidationException
      */
     public function store(LoginRequest $request)
     {
@@ -35,6 +37,7 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerate();
 
         $request->setLocale(auth()->user()->settings->locale);
+        auth()->user()->update(['last_login_at' => now()]);
 
 
         $response = redirect()->intended(route(('users.index')));

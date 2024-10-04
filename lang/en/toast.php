@@ -55,4 +55,17 @@ return [
     'profile_update_successful' => 'Profile successfully updated!',
 
     'profile_update_failed' => 'An error has occurred. The profile has not been updated! Reason: :error',
+
+
+
+    'gallery_create_successful' => 'Image added to the gallery!',
+
+    'gallery_delete_successful' => 'Image successfully deleted!',
+
+    'gallery_create_failed' => 'An error has occurred. The image has not been created! Reason: :error',
+
+    'gallery_delete_failed' => 'An error has occured. The image has not been deleted! Reason: :error',
+
+    'gallery_view_failed' => 'You do not have permission to view the gallery!',
+
 ];

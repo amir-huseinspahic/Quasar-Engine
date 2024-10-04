@@ -46,6 +46,7 @@ class Post extends Model {
     protected function casts(): array
     {
         return [
+            'published' => 'boolean',
             'forewords'=> PurifyHtmlOnGet::class,
             'content' => PurifyHtmlOnGet::class,
         ];

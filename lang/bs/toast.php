@@ -55,4 +55,17 @@ return [
     'profile_update_successful' => 'Profil je uspješno ažuriran!',
 
     'profile_update_failed' => 'Došlo je do greške. Profil nije ažuriran! Razlog: :error',
+
+
+
+    'gallery_create_successful' => 'Slika je dodata u galeriju!',
+
+    'gallery_delete_successful' => 'Slika je uspješno obrisana!',
+
+    'gallery_create_failed' => 'Došlo je do greške. Slika nije kreirana! Razlog: :error',
+
+    'gallery_delete_failed' => 'Došlo je do greške. Slika nije obrisana! Razlog: :error',
+
+    'gallery_view_failed' => 'Nemate dozvolu za pregled galerije!',
+
 ];

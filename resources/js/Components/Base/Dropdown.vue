@@ -15,7 +15,7 @@
         <div>
             <button type="button" class="bg-gray-50 inline-flex w-full justify-center gap-x-1.5 rounded-md px-3 py-2 text-sm font-semibold text-gray-700 items-center hover:bg-gray-50" id="menu-button" aria-expanded="true" aria-haspopup="true" @click="toggleDropdown">
                 <img class="w-8 h-auto" :src="'/media/users/avatars/' + $page.props.auth.user.id + '.png'" alt="">
-                {{ $page.props.auth.user.name }}
+                <span class="hidden md:block">{{ $page.props.auth.user.name }}</span>
                 <ChevronDownIcon class="-mr-1 ml-1 size-5 text-gray-400 transform transition-all ease-out lg:mr-1 lg:ml-2" :class="isDropdownExpanded ? 'rotate-180' : 'rotate-0'" />
             </button>
         </div>

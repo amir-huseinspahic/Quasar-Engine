@@ -21,9 +21,10 @@
         }
     });
 
+    console.log(props.post)
+
     const { getHRT } = getHumanReadableTime();
 
-    let thumbnailPath = '/media/posts/thumbnails/' + props.post.thumbnail;
     const deletePostForm = useForm ({});
     const isDeletionModalShown = ref(false);
 
@@ -102,14 +103,14 @@
                     <p v-html="post.forewords"></p>
                 </div>
                 <div class="w-11/12 mx-auto lg:w-1/2 my-6">
-                    <img v-if="post.thumbnail" class="rounded-md shadow-lg object-cover w-full max-h-[600px]" :src="thumbnailPath" alt="">
+                    <img v-if="post.thumbnail" class="rounded-md shadow-lg object-cover w-full max-h-[600px]" :src="props.post.thumbnail" alt="">
                 </div>
                 <div class="prose lg:prose-lg max-w-none p-2">
                     <p v-html="post.content"></p>
                 </div>
                 <div class="grid grid-cols-2 lg:grid-cols-3 gap-1 max-w-2xl mx-auto p-2 m-2 rounded">
                     <div class="relative" v-for="images in post.media">
-                        <img :src="'/media/posts/media/' + images.name" alt="">
+                        <img :src="images.path" alt="">
                     </div>
                 </div>
             </div>

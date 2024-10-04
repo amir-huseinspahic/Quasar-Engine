@@ -8,6 +8,7 @@ import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy';
 import { i18nVue } from 'laravel-vue-i18n';
 import Vue3Toastify from 'vue3-toastify';
+import Vue3SmoothScroll from 'vue3-smooth-scroll'
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
@@ -25,6 +26,7 @@ createInertiaApp({
                 }
             })
             .use(Vue3Toastify)
+            .use(Vue3SmoothScroll)
             .mount(el);
     },
     progress: {

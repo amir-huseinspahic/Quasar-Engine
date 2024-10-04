@@ -21,7 +21,7 @@ use Spatie\Permission\Models\Role;
 class UserController extends Controller {
     public function index(): Response {
 
-        $userSettings = auth()->user()->settings->first();
+        $userSettings = auth()->user()->settings;
 
         $users = User::query()
             ->orderBy('name')

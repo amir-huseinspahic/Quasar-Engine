@@ -1,14 +1,21 @@
 <script setup>
+    import { router, useForm, usePage } from '@inertiajs/vue3'
+
     import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
     import DangerButton from '@/Components/Base/DangerButton.vue'
-    import { Link, router, useForm, usePage } from '@inertiajs/vue3'
     import PrimaryButton from '@/Components/Base/PrimaryButton.vue'
     import InputError from '@/Components/Base/InputError.vue'
     import InputLabel from '@/Components/Base/InputLabel.vue'
     import InputField from '@/Components/Base/InputField.vue'
     import SelectField from '@/Components/Base/SelectField.vue'
-    import dayjs from 'dayjs'
     import Checkbox from '@/Components/Base/Checkbox.vue'
+
+    import dayjs from 'dayjs';
+    import dayjsUTC from 'dayjs/plugin/utc';
+    import dayjsTimezone from 'dayjs/plugin/timezone';
+
+    dayjs.extend(dayjsUTC);
+    dayjs.extend(dayjsTimezone);
 
     const props = defineProps({
         user: {
@@ -30,13 +37,6 @@
         time_format:  props.user.settings.time_format,
         show_private_posts:  props.user.settings.show_private_posts,
     });
-
-    function getHRT(datetime) {
-        return dayjs(datetime)
-            .tz(usePage().props.auth.user.settings.timezone)
-            .local(usePage().props.auth.user.settings.locale)
-            .format(usePage().props.auth.user.settings.date_format +  ", " + usePage().props.auth.user.settings.time_format);
-    }
 
     function back() {
         let urlPrev = usePage().props.urlPrev;

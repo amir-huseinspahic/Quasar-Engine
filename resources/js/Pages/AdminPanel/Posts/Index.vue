@@ -1,5 +1,5 @@
 <script setup>
-    import { ref, watch } from 'vue';
+    import { computed, ref, watch, watchEffect } from 'vue'
     import { router, Link, useForm, usePage } from '@inertiajs/vue3';
     import { throttle } from 'lodash';
 
@@ -46,10 +46,13 @@
         }
     });
 
+    console.log(props.posts)
+
     const { getHRT } = getHumanReadableTime();
 
     const isFiltersMenuShown = ref(localStorage.getItem('isFiltersMenuShown') === 'true');
     const isCategoriesModalShown = ref(localStorage.getItem('isCategoriesModalShown') === 'true');
+    const isConfirmDeletionModalShown = ref(false);
 
     const userPreferencesForm = useForm({
         page_layout: usePage().props.auth.user.settings.page_layout,
@@ -59,6 +62,7 @@
     const createCategoryForm = useForm({ name: '' });
     const deleteCategoryForm = useForm({ id: null });
 
+    const categoryToBeDeleted = ref(null);
     let isMobile = detectMobile();
     let perPage = [5, 10, 25, 50, 100];
 
@@ -84,6 +88,22 @@
         isCategoriesModalShown.value = false;
         localStorage.setItem('isCategoriesModalShown', isCategoriesModalShown.value);
 
+    }
+
+    function showConfirmDeletionModal(categoryID) {
+        isConfirmDeletionModalShown.value = true;
+        categoryToBeDeleted.value = categoryID;
+
+        isCategoriesModalShown.value = false;
+        localStorage.setItem('isCategoriesModalShown', isCategoriesModalShown.value);
+    }
+
+    function closeConfirmDeletionModal() {
+        isConfirmDeletionModalShown.value = false;
+        categoryToBeDeleted.value = null;
+
+        isCategoriesModalShown.value = true;
+        localStorage.setItem('isCategoriesModalShown', isCategoriesModalShown.value);
     }
 
     function switchLayout(value) {
@@ -120,6 +140,9 @@
 
     function deleteCategory(id) {
         if (id) {
+            closeConfirmDeletionModal();
+            showCategoriesModal()
+
             deleteCategoryForm.id = id;
             deleteCategoryForm.post(route('posts.categories.destroy', { id: id }), {
                 onError: () => deleteCategoryForm.reset(),
@@ -167,6 +190,11 @@
         router.get(route(route().current()), { search: value })
     }
 
+    watch(usePage().props, function (val) {
+        if (val?.posts) {
+            router.reload({ only: ['posts'] })
+        }
+    }, { immediate: true, deep: true })
 </script>
 
 <template>
@@ -372,15 +400,15 @@
                 enter-active-class="transition ease-out"
                 enter-from-class="opacity-0"
             >
-                <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 xl:grid-cols-5 gap-2"
+                <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 xl:grid-cols-5 auto-rows-fr gap-2"
                      v-show="isMobile === true || $page.props.auth.user.settings.page_layout === 'cards'">
-                    <template class="" v-for="post in props.posts.data">
+                    <template v-for="post in props.posts.data">
                         <Link class="bg-white border flex flex-col shadow rounded-md group"
                               :href="route('posts.show', { post: post })">
                             <img class="h-48 w-full object-cover rounded-t-md"
-                                 :src="'/media/posts/thumbnails/' + post.thumbnail" alt="">
+                                 :src="post.thumbnail" alt="">
                             <section class="flex flex-col p-3 flex-1">
-                                <span class="text-sm text-gray-600">{{post.category}}</span>
+                                <span class="text-sm text-gray-600">{{ post.category }}</span>
                                 <h1 class="font-semibold text-gray-800 mb-2 group-hover:text-indigo-500 transition-colors ease-out">
                                     {{ post.title }}</h1>
                                 <div class="text-gray-600 mt-auto flex gap-1">
@@ -432,19 +460,31 @@
                     </div>
                 </form>
 
-                <section class="grid grid-cols-2 gap-2 mt-8 border border-gray-300 px-3 py-6 rounded-md shadow relative md:grid-cols-4">
+                <div class="grid grid-cols-2 gap-2 mt-8 border border-gray-300 px-3 py-6 rounded-md shadow relative md:grid-cols-4">
                     <div class="absolute -top-3 left-3 capitalize bg-white font-bold">{{ $t('All categories') }}</div>
                     <template v-for="categories in props.post_categories">
                         <div class="text-center px-3 py-2 bg-gray-100 rounded shadow relative">
-                            <button class="absolute -top-1 -right-1 bg-red-600 rounded-md" @click="deleteCategory(categories.id)">
+                            <button class="absolute -top-1 -right-1 bg-red-600 rounded-md" @click="showConfirmDeletionModal(categories.id)">
                                 <XMarkIcon class="size-5 text-white" />
                             </button>
                             {{ categories.name }}
                         </div>
                     </template>
-                </section>
+                </div>
 
                 <DangerButton class="mt-4" type="button" @click="closeCategoriesModal">{{ $t('Cancel') }}</DangerButton>
+            </div>
+        </Modal>
+
+        <Modal :show="isConfirmDeletionModalShown" @close="closeConfirmDeletionModal">
+            <div class="p-3">
+                <h1 class="text-red-600 text-lg">{{ $t('Deleting this category will also delete any posts with this category.') }}</h1>
+                <h1 class="text-red-600">{{ $t('Are you sure you want to continue?') }}</h1>
+
+                <div class="flex mt-4 space-x-4">
+                    <DangerButton @click="deleteCategory(categoryToBeDeleted)">{{ $t('I understand and want to continue') }}</DangerButton>
+                    <PrimaryButton type="button" @click="closeConfirmDeletionModal">{{ $t('Cancel') }}</PrimaryButton>
+                </div>
             </div>
         </Modal>
 

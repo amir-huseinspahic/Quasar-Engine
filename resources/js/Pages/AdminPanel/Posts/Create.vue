@@ -38,8 +38,6 @@
 
     const postMedia = ref([]);
 
-    console.log(usePage().props);
-
     function onThumbnailSelected (event) {
         const reader = new FileReader();
         const imageData = event.target.files[0];
@@ -244,9 +242,9 @@
                 </div>
             </div>
 
-            <section class="flex">
+            <div class="flex">
                 <PrimaryButton type="submit" :disabled="createPostForm.processing">{{ $t('Submit') }}</PrimaryButton>
-            </section>
+            </div>
         </form>
 
         <Transition

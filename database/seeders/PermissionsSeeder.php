@@ -32,6 +32,9 @@ class PermissionsSeeder extends Seeder
         Permission::create(['name' => 'publish posts']);
         Permission::create(['name' => 'unpublish posts']);
 
+        Permission::create(['name' => 'add image to gallery']);
+        Permission::create(['name' => 'remove image from gallery']);
+
 
         $rootRole = Role::create(['name' => 'root']);
         $writerRole = Role::create(['name' => 'writer']);
@@ -50,6 +53,9 @@ class PermissionsSeeder extends Seeder
         $adminRole->givePermissionTo('create posts');
         $adminRole->givePermissionTo('edit posts');
         $adminRole->givePermissionTo('delete posts');
-
+        $adminRole->givePermissionTo('publish posts');
+        $adminRole->givePermissionTo('unpublish posts');
+        $adminRole->givePermissionTo('add image to gallery');
+        $adminRole->givePermissionTo('remove image from gallery');
     }
 }

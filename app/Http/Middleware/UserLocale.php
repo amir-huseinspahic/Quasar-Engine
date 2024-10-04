@@ -16,7 +16,8 @@ class UserLocale
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
     public function handle(Request $request, Closure $next): Response {
-        app()->setLocale(auth()->user()->settings->locale ?? 'en');
+
+        app()->setLocale(auth()->user()->settings->locale ?? config('app.locale'));
 
         return $next($request);
     }

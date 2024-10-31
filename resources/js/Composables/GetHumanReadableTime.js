@@ -39,7 +39,7 @@ dayjs.updateLocale('bs', {
         },
         d: "dan",
         dd: function (number) {
-            if (number % 10 === 1) return number + " dan";
+            if (number % 10 === 1 && number !== 11) return number + " dan";
             else return number + " dana";
         },
         M: "mjesec",

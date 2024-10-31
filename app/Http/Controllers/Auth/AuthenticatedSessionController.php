@@ -36,7 +36,8 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        $request->setLocale(auth()->user()->settings->locale);
+        //$request->setLocale(auth()->user()->settings->locale);
+        \app()->setLocale(\auth()->user()->settings->locale);
         auth()->user()->update(['last_login_at' => now()]);
 
 

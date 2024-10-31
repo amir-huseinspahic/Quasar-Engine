@@ -76,17 +76,17 @@
                         {{ $t('About') }}
                     </Link>
                 </li>
-                <li>
+                <li v-if="$page.props.app.settings.posts === true">
                     <Link class="hover:text-indigo-600 transition-colors ease-out" :href="handleRouteSelection('#news')" v-smooth-scroll>
                         {{ $t('News') }}
                     </Link>
                 </li>
-                <li v-if="props.galleryCount > 0">
+                <li v-if="props.galleryCount > 0 && $page.props.app.settings.gallery === true">
                     <Link class="hover:text-indigo-600 transition-colors ease-out" :href="handleRouteSelection('#gallery')" v-smooth-scroll>
                         {{ $t('Gallery') }}
                     </Link>
                 </li>
-                <li v-if="props.postsCount > 0">
+                <li v-if="props.postsCount > 0 && $page.props.app.settings.posts === true">
                     <Link class="hover:text-indigo-600 transition-colors ease-out" :href="handleRouteSelection('#posts')" v-smooth-scroll>
                         {{ $t('Posts') }}
                     </Link>
@@ -135,9 +135,9 @@
             <nav class="flex flex-col min-h-screen items-center py-8" aria-label="mobile-menu">
                 <Link class="w-full text-center py-6" @click="unlockScroll" :href="handleRouteSelection('#landing')" v-smooth-scroll>{{ $t('Landing') }}</Link>
                 <Link class="w-full text-center py-6" @click="unlockScroll" :href="handleRouteSelection('#about')" v-smooth-scroll>{{ $t('About') }}</Link>
-                <Link class="w-full text-center py-6" @click="unlockScroll" :href="handleRouteSelection('#news')" v-smooth-scroll>{{ $t('News') }}</Link>
-                <Link class="w-full text-center py-6" @click="unlockScroll" :href="handleRouteSelection('#gallery')" v-if="props.galleryCount > 0" v-smooth-scroll>{{ $t('Gallery') }}</Link>
-                <Link class="w-full text-center py-6" @click="unlockScroll" :href="handleRouteSelection('#posts')" v-if="props.postsCount > 0" v-smooth-scroll>{{ $t('Posts') }}</Link>
+                <Link class="w-full text-center py-6" @click="unlockScroll" :href="handleRouteSelection('#news')" v-if="$page.props.app.settings.posts === true" v-smooth-scroll>{{ $t('News') }}</Link>
+                <Link class="w-full text-center py-6" @click="unlockScroll" :href="handleRouteSelection('#gallery')" v-if="props.galleryCount > 0 && $page.props.app.settings.gallery === true" v-smooth-scroll>{{ $t('Gallery') }}</Link>
+                <Link class="w-full text-center py-6" @click="unlockScroll" :href="handleRouteSelection('#posts')" v-if="props.postsCount > 0 && $page.props.app.settings.posts === true" v-smooth-scroll>{{ $t('Posts') }}</Link>
             </nav>
 
     </div>

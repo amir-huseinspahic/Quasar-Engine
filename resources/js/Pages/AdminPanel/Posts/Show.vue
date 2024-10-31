@@ -1,7 +1,6 @@
 <script setup>
     import { ref } from 'vue'
     import { Link, router, useForm, usePage } from '@inertiajs/vue3';
-
     import { getHumanReadableTime } from '@/Composables/GetHumanReadableTime.js';
 
     import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
@@ -9,6 +8,8 @@
     import DangerButton from '@/Components/Base/DangerButton.vue';
     import Modal from '@/Components/Base/Modal.vue';
 
+    import { ExclamationCircleIcon } from '@heroicons/vue/24/outline/index.js';
+    import Fancybox from '@/Components/Base/Fancybox.vue'
 
     const props = defineProps({
         post: {
@@ -20,8 +21,6 @@
             required: true
         }
     });
-
-    console.log(props.post)
 
     const { getHRT } = getHumanReadableTime();
 
@@ -46,7 +45,6 @@
     const deletePostSubmit = () => {
         deletePostForm.post(route('posts.destroy', { post: props.post }));
     }
-
 </script>
 
 <template>
@@ -72,6 +70,11 @@
         </section>
 
         <div class="max-w-7xl mx-auto mt-4">
+
+            <div class="w-11/12 lg:w-2/3 mx-auto text-white p-2 bg-orange-600 rounded-md shadow-md flex items-center" v-if="$page.props.flash.flagged">
+                <ExclamationCircleIcon class="size-8 min-w-8 mr-2" />
+                <p class="p-1">{{ $t('This post was flagged by moderation. Please contact your administrator for help.') }}</p>
+            </div>
 
             <div class="my-8 flex flex-col rounded-md">
                 <div class="flex flex-col p-1 lg:flex-row lg:justify-between">
@@ -103,16 +106,24 @@
                     <p v-html="post.forewords"></p>
                 </div>
                 <div class="w-11/12 mx-auto lg:w-1/2 my-6">
-                    <img v-if="post.thumbnail" class="rounded-md shadow-lg object-cover w-full max-h-[600px]" :src="props.post.thumbnail" alt="">
+                    <Fancybox v-if="post.thumbnail">
+                        <a :href="props.post.thumbnail" data-fancybox :data-caption="props.post.title">
+                            <img class="rounded-md shadow-lg object-cover w-full max-h-[600px]" :src="props.post.thumbnail" :alt="props.post.title">
+                        </a>
+                    </Fancybox>
                 </div>
                 <div class="prose lg:prose-lg max-w-none p-2">
                     <p v-html="post.content"></p>
                 </div>
-                <div class="grid grid-cols-2 lg:grid-cols-3 gap-1 max-w-2xl mx-auto p-2 m-2 rounded">
-                    <div class="relative" v-for="images in post.media">
-                        <img :src="images.path" alt="">
+                <Fancybox>
+                    <div class="grid grid-cols-2 lg:grid-cols-3 gap-1 max-w-2xl mx-auto p-2 m-2 rounded">
+                        <div class="relative" v-for="images in post.media">
+                            <a :href="images.path" data-fancybox="Gallery">
+                                <img :src="images.path" alt="">
+                            </a>
+                        </div>
                     </div>
-                </div>
+                </Fancybox>
             </div>
         </div>
 

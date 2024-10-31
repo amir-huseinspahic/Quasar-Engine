@@ -202,7 +202,7 @@
                 </div>
             </div>
 
-            <div class="w-fit">
+            <div class="w-fit" v-if="$page.props.auth.permissions.includes('publish posts') || $page.props.auth.role === 'root'">
                 <InputLabel for="published">{{ $t('Visibility') }}<span class="text-red-500">*</span></InputLabel>
                 <label class="flex items-center">
                     <Checkbox id="published" name="published" v-model:checked="editPostForm.published" />
@@ -237,9 +237,9 @@
                         <span v-if="thumbnail.togglePreview" class="mt-1 font-medium tracking-wide text-gray-700" id="filename">
                         {{ thumbnail.rawData.name }}
                     </span>
-                        <span v-else class="mt-1 font-medium tracking-wide text-gray-700" id="filename">New thumbnail</span>
-                        <span class="mt-2 text-xs tracking-wide text-gray-500">Click here to change the thumbnail</span>
-                        <span class="mt-2 text-xs tracking-wide text-gray-500">Accepted formats: JPG, JPEG, PNG, SVG</span>
+                        <span v-else class="mt-1 font-medium tracking-wide text-gray-700" id="filename">{{ $t('New thumbnail') }}</span>
+                        <span class="mt-2 text-xs tracking-wide text-gray-500">{{ $t('Click here to change the thumbnail') }}</span>
+                        <span class="mt-2 text-xs tracking-wide text-gray-500">{{ $t('Accepted formats:') }} JPG, JPEG, PNG, SVG</span>
                     </label>
                     <InputError class="mt-2" :message="editPostForm.errors.thumbnail" />
 

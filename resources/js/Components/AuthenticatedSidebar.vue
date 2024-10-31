@@ -55,21 +55,29 @@
                 </span>
             </AuthenticatedSidebarPageLink>
 
-            <AuthenticatedSidebarPageLink class="mt-1" :href="route('posts.index')" :active="route().current('posts.*')">
+            <AuthenticatedSidebarPageLink class="mt-1"
+                                          v-if="$page.props.app.settings.posts === true"
+                                          :href="route('posts.index')"
+                                          :active="route().current('posts.*')">
                 <NewspaperIcon class="size-8 min-w-8 m-2" />
                 <span class="my-auto whitespace-nowrap transition-all ease-out duration-200">
                     {{ $t('Posts')  }}
                 </span>
             </AuthenticatedSidebarPageLink>
 
-            <AuthenticatedSidebarPageLink class="mt-1" v-if="$page.props.auth.permissions.includes('add image to gallery') || $page.props.auth.role === 'root'" :href="route('gallery.index')" :active="route().current('gallery.*')">
+            <AuthenticatedSidebarPageLink class="mt-1"
+                                          v-if="($page.props.auth.permissions.includes('add image to gallery') || $page.props.auth.role === 'root') && $page.props.app.settings.gallery === true"
+                                          :href="route('gallery.index')"
+                                          :active="route().current('gallery.*')">
                 <PhotoIcon class="size-8 min-w-8 m-2" />
                 <span class="my-auto whitespace-nowrap transition-all ease-out duration-200">
                     {{ $t('Gallery') }}
                 </span>
             </AuthenticatedSidebarPageLink>
 
-            <AuthenticatedSidebarPageLink class="mt-auto" href="">
+            <AuthenticatedSidebarPageLink class="mt-auto"
+                                          v-if="$page.props.auth.role === 'root' || $page.props.auth.role === 'admin'"
+                                          :href="route('settings')" :active="route().current('settings')">
                 <Cog8ToothIcon class="size-8 min-w-8 m-2" />
                 <span class="my-auto whitespace-nowrap transition-all ease-out duration-200">
                     {{ $t('Settings') }}
@@ -126,7 +134,10 @@
                 </span>
             </AuthenticatedSidebarPageLink>
 
-            <AuthenticatedSidebarPageLink class="mt-1" :href="route('posts.index')" :active="route().current('posts.*')">
+            <AuthenticatedSidebarPageLink class="mt-1"
+                                          v-if="$page.props.app.settings.posts === true"
+                                          :href="route('posts.index')"
+                                          :active="route().current('posts.*')">
                 <NewspaperIcon class="size-8 min-w-8 m-2" />
                 <span class="my-auto text-lg whitespace-nowrap transition-all ease-out duration-200"
                       :class="sidebarExpanded ? 'opacity-100 visible' : 'opacity-0 invisible'">
@@ -134,7 +145,10 @@
                 </span>
             </AuthenticatedSidebarPageLink>
 
-            <AuthenticatedSidebarPageLink class="mt-1" v-if="$page.props.auth.permissions.includes('add image to gallery') || $page.props.auth.role === 'root'" :href="route('gallery.index')" :active="route().current('gallery.*')">
+            <AuthenticatedSidebarPageLink class="mt-1"
+                                          v-if="($page.props.auth.permissions.includes('add image to gallery') || $page.props.auth.role === 'root') && $page.props.app.settings.gallery === true"
+                                          :href="route('gallery.index')"
+                                          :active="route().current('gallery.*')">
                 <PhotoIcon class="size-8 min-w-8 m-2" />
                 <span class="my-auto text-lg whitespace-nowrap transition-all ease-out duration-200"
                       :class="sidebarExpanded ? 'opacity-100 visible' : 'opacity-0 invisible'">
@@ -142,7 +156,10 @@
                 </span>
             </AuthenticatedSidebarPageLink>
 
-            <AuthenticatedSidebarPageLink class="mt-auto" href="">
+            <AuthenticatedSidebarPageLink class="mt-auto"
+                                          v-if="$page.props.auth.role === 'root' || $page.props.auth.role === 'admin'"
+                                          :href="route('settings')"
+                                          :active="route().current('settings')">
                 <Cog8ToothIcon class="size-8 min-w-8 m-2" />
                 <span class="my-auto text-lg whitespace-nowrap transition-all ease-out duration-200"
                       :class="sidebarExpanded ? 'opacity-100 visible' : 'opacity-0 invisible'">

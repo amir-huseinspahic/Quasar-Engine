@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\PostStoreRequest;
 use App\Http\Requests\PostUpdateRequest;
+use App\Models\AppSettings;
 use App\Models\Post;
 use App\Models\PostCategory;
 use App\Models\User;
@@ -17,14 +18,19 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Inertia\Response;
+use OpenAI\Laravel\Facades\OpenAI;
 
 class PostController extends Controller {
 
     /**
-     * @return Response
+     * @return Response|RedirectResponse
      * Display a listing of the resource.
      */
-    public function index() : Response {
+    public function index() : Response | RedirectResponse {
+        if (!$this->postsEnabled()) {
+            return back()->withError(__('toast.page_disabled_error'));
+        }
+
         $userSettings = auth()->user()->settings;
 
         $posts = Post::query()
@@ -71,20 +77,66 @@ class PostController extends Controller {
     /**
      * Show the form for creating a new resource.
      */
-    public function create(): Response {
+    public function create(): Response | RedirectResponse {
+        if (!$this->postsEnabled()) {
+            return back()->withError(__('toast.page_disabled_error'));
+        }
+
         $postCategories = PostCategory::all();
 
         return Inertia::render('AdminPanel/Posts/Create', ['postCategories' => $postCategories]);
+
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(PostStoreRequest $request): RedirectResponse
-    {
+    public function store(PostStoreRequest $request): RedirectResponse {
         $validated = $request->validated();
 
+        $postShouldBePublished = null;
+        $isFlagged = false;
+
         try {
+            if ($this->aiEnabled()) {
+                //OpenAI Moderation check
+                $response = OpenAI::moderations()->create([
+                    'model' => 'omni-moderation-latest',
+                    'input' => [
+                        $validated['title'],
+                        $validated['forewords'],
+                        $validated['content']
+                    ],
+                ]);
+
+                $contentFlags = [
+                    [
+                        'name' => 'title',
+                        'value' => $validated['title'],
+                        'flagged' => null
+                    ],
+                    [
+                        'name' => 'forewords',
+                        'value' => $validated['forewords'],
+                        'flagged' => null
+                    ],
+                    [
+                        'name' => 'content',
+                        'value' => $validated['content'],
+                        'flagged' => null
+                    ],
+                ];
+
+
+                foreach ($response->results as $key => $value) {
+                    if ($value->flagged === true) $isFlagged = true;
+                    $contentFlags[$key]['flagged'] = $value->flagged;
+                }
+
+
+                if ($isFlagged) $postShouldBePublished = false;
+            }
+
             $thumbnailName = null;
             if ($validated['thumbnail']) {
                 $thumbnailName = Str::of($validated['title'])->slug('-') . '-' . time() . '.' . $validated['thumbnail']->getClientOriginalExtension();
@@ -94,7 +146,6 @@ class PostController extends Controller {
             }
             else $thumbnailName = '/media/app/panel.png';
 
-
             $post = Post::create([
                 'user_id' => Auth::id(),
                 'post_category_id' => $validated['category_id'],
@@ -102,7 +153,7 @@ class PostController extends Controller {
                 'forewords' => $validated['forewords'],
                 'thumbnail' => $thumbnailName,
                 'content' => $validated['content'],
-                'published' => $validated['published']
+                'published' => $postShouldBePublished ?? $validated['published']
             ]);
 
             $mediaNames = null;
@@ -117,6 +168,10 @@ class PostController extends Controller {
                     ]);
                 }
             }
+
+            if ($isFlagged === true) {
+                return Redirect::route('posts.show', ['post' => $post])->withSuccess(__('toast.post_create_successful_with_ai_error'))->with('flagged', $contentFlags);
+            }
         }
         catch (Exception $e) {
             return Redirect::back()->withError(__('toast.post_create_failed', ['error' => $e->getMessage()]));
@@ -128,7 +183,11 @@ class PostController extends Controller {
     /**
      * Display the specified resource.
      */
-    public function show(Post $post) : Response {
+    public function show(Post $post) : Response | RedirectResponse {
+        if (!$this->postsEnabled()) {
+            return back()->withError(__('toast.page_disabled_error'));
+        }
+
         $userSettings = auth()->user()->settings->first();
 
         $userPreferences['locale'] = $userSettings->locale;
@@ -151,6 +210,10 @@ class PostController extends Controller {
      * Show the form for editing the specified resource.
      */
     public function edit(Post $post) : Response {
+        if (!$this->postsEnabled()) {
+            return back()->withError(__('toast.page_disabled_error'));
+        }
+
         $post->author;
         $post->category;
         $post->media;
@@ -256,5 +319,13 @@ class PostController extends Controller {
         $picture->delete();
 
         return Redirect::route('posts.edit', ['post' => $post]);
+    }
+
+    protected function postsEnabled() {
+        return AppSettings::first()->posts;
+    }
+
+    protected function aiEnabled() {
+        return AppSettings::first()->ai_moderation;
     }
 }

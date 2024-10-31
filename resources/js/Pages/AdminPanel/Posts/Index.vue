@@ -46,7 +46,7 @@
         }
     });
 
-    console.log(props.posts)
+    console.log(usePage().props);
 
     const { getHRT } = getHumanReadableTime();
 
@@ -292,7 +292,7 @@
                                             v-model="categoryFilter"
                                             @change="selectCategoryFilter">
                                         <template v-for="categories in props.post_categories">
-                                            <option :value="categories.id">{{categories.name}}</option>
+                                            <option :value="categories.id">{{ categories.name }}</option>
                                         </template>
                                     </select>
                                 </div>

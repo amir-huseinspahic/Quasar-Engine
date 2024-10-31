@@ -20,6 +20,7 @@
         "vue": "^3.4.0"
     },
     "dependencies": {
+        "@fancyapps/ui": "^5.0.36",
         "@heroicons/vue": "^2.1.4",
         "@tiptap/extension-placeholder": "^2.4.0",
         "@tiptap/pm": "^2.4.0",

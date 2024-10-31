@@ -50,6 +50,13 @@ Route::group(['middleware' => ['auth', 'userLocale']], function () {
     Route::post('/profile/edit', [ProfileController::class, 'update'])->name('profile.update');
 });
 
+Route::middleware(['auth', 'userLocale', 'role_or_permission:admin'])->group(function () {
+    Route::get('/settings', [DashboardController::class, 'settings'])->name('settings');
+    Route::post('/settings/update/ai', [DashboardController::class, 'updateSettingAI'])->name('settings.update.ai');
+    Route::post('/settings/update/posts', [DashboardController::class, 'updateSettingPost'])->name('settings.update.posts');
+    Route::post('/settings/update/gallery', [DashboardController::class, 'updateSettingGallery'])->name('settings.update.gallery');
+});
+
  // This has to be last!
 Route::group(['middleware' => ['guestLocale']], function () {
     Route::get('/', [HomepageController::class, 'index'])->name('home');

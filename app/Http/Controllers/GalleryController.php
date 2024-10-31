@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AppSettings;
 use App\Models\GalleryImage;
 use Exception;
 use Illuminate\Http\Request;
@@ -12,6 +13,10 @@ use Inertia\Response;
 class GalleryController extends Controller {
 
     public function index() {
+        if (!$this->galleryEnabled()) {
+            return back()->withError(__('toast.page_disabled_error'));
+        }
+
         try {
             if (!auth()->user()->hasPermissionTo('add image to gallery') && !auth()->user()->hasRole('root')) {
                 throw new Exception(__('toast.gallery_view_failed'));
@@ -76,5 +81,9 @@ class GalleryController extends Controller {
         catch (Exception $e) {
             return Redirect::back()->withError(__('toast.gallery_delete_failed', ['error' => $e->getMessage()]));
         }
+    }
+
+    protected function galleryEnabled() {
+        return AppSettings::first()->gallery;
     }
 }

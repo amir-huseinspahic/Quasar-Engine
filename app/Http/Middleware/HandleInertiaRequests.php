@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\AppSettings;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -31,6 +32,9 @@ class HandleInertiaRequests extends Middleware
     {
         return [
             ...parent::share($request),
+            'app' => [
+                'settings' => AppSettings::first(),
+            ],
             'auth' => [
                 'user' => $request->user() ? $request->user() : null,
                 'role' => $request->user() ? $request->user()->roles()->first()->name : null,
@@ -38,6 +42,7 @@ class HandleInertiaRequests extends Middleware
             ],
             'flash' => fn () => [
                 'toasts' => $request->session()->get('toasts'),
+                'flagged' => $request->session()->get('flagged') ? $request->session()->get('flagged') : null,
             ],
             'guestLocale' => session()->get('locale') ?? app()->getLocale(),
         ];

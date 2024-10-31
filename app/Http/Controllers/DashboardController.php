@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AppSettings;
 use App\Models\Post;
 use Carbon\Carbon;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
@@ -47,6 +49,33 @@ class DashboardController extends Controller {
 
 
     public function settings() {
+        if (!auth()->user()->hasRole('root') && !auth()->user()->hasRole('admin')) {
+            return back()->withError(__('toast.missing_permission'));
+        }
 
+        $appSettings = AppSettings::first();
+
+        return Inertia::render('AdminPanel/Settings', ['appSettings' => $appSettings]);
+    }
+
+    public function updateSettingAI(Request $request) {
+        $request->validate(['ai' => ['required', 'boolean']]);
+
+        $appSettings = AppSettings::first();
+        $appSettings->update(['ai_moderation' => $request->ai]);
+    }
+
+    public function updateSettingPost(Request $request) {
+        $request->validate(['posts' => ['required', 'boolean']]);
+
+        $appSettings = AppSettings::first();
+        $appSettings->update(['posts' => $request->posts]);
+    }
+
+    public function updateSettingGallery(Request $request) {
+        $request->validate(['gallery' => ['required', 'boolean']]);
+
+        $appSettings = AppSettings::first();
+        $appSettings->update(['gallery' => $request->gallery]);
     }
 }

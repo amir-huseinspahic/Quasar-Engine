@@ -133,7 +133,7 @@
                 </div>
             </div>
 
-            <div class="bg-gradient-to-b from-gray-100 to-gray-white p-4" id="news">
+            <div class="bg-gradient-to-b from-gray-100 to-gray-white p-4" id="news" v-if="$page.props.app.settings.posts === true">
                 <h1 class="text-4xl font-light text-gray-800 ml-4 mb-6">{{ $t('News') }}</h1>
 
                 <Swiper class="xl:w-2/3 mb-6" v-if="props.news.length > 0" :data="props.news" />
@@ -143,13 +143,13 @@
                 </div>
             </div>
 
-            <div class="p-4" id="gallery" v-if="props.gallery.length > 0">
+            <div class="p-4" id="gallery" v-if="props.gallery.length > 0 && $page.props.app.settings.gallery === true ">
                 <h1 class="text-4xl font-light text-gray-800 ml-4 mb-6">{{ $t('Gallery') }}</h1>
 
                 <GallerySwiper :data="props.gallery" />
             </div>
 
-            <div class="p-4 mb-10" id="posts">
+            <div class="p-4 mb-10" id="posts" v-if="props.posts.length > 0 && $page.props.app.settings.posts === true">
                 <h1 class="text-4xl font-light text-gray-800 ml-4 mb-6">{{ $t('Posts') }}</h1>
 
                 <Swiper class="xl:w-2/3 mb-6" :data="props.posts" :show-category="true" />

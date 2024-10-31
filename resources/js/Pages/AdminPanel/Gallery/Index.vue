@@ -10,8 +10,9 @@
     import InputField from '@/Components/Base/InputField.vue'
 
     import { XMarkIcon } from '@heroicons/vue/24/solid/index.js'
-    import { ArrowUpOnSquareIcon, PencilSquareIcon } from '@heroicons/vue/24/outline/index.js'
+    import { ArrowUpOnSquareIcon, PencilSquareIcon, ExclamationCircleIcon } from '@heroicons/vue/24/outline/index.js'
     import DangerButton from '@/Components/Base/DangerButton.vue'
+    import Fancybox from '@/Components/Base/Fancybox.vue'
 
 
 
@@ -56,8 +57,6 @@
     function closeDeleteModal() {
         isDeleteModalShown.value = false;
         idToDelete.value = null;
-
-        console.log(idToDelete.value);
     }
 
     function onThumbnailSelected (event) {
@@ -112,28 +111,39 @@
 
         </div>
 
-        <div class="max-w-7xl mx-auto mt-4 p-2 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
-            <template v-for="item in props.images">
-                <div class="px-2 py-1 relative">
-                    <img class="rounded-lg shadow-lg" :src="item.img_path" alt="gallery image">
-                    <div class="flex justify-between mt-1 border-b border-gray-200 p-1">
-                        <p class="text-gray-500 text-xs mt-1 p-1 sm:text-base ml-2">{{ item.description }}</p>
-                        <div class="flex my-auto p-1">
-                            <button class="bg-red-500 text-white rounded-md shadow-lg" @click="showDeleteModal(item.id)">
-                                <XMarkIcon class="size-7 p-1" />
-                            </button>
+        <div class="max-w-7xl mx-auto mt-4 p-2 flex flex-col space-y-6" v-if="props.images.length < 1">
+            <div class="shadow-md rounded-md p-2 flex items-center justify-center text-center text-white bg-orange-400 space-x-2 select-none">
+                <ExclamationCircleIcon class="size-7" />
+                <p>{{ $t('There is currently no images in the gallery.') }}</p>
+            </div>
+        </div>
+
+        <Fancybox>
+            <div class="max-w-7xl mx-auto mt-4 p-2 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
+                <template v-for="item in props.images">
+                    <div class="px-2 py-1 relative">
+                        <a :href="item.img_path" data-fancybox="Gallery" :data-caption="item.description">
+                            <img class="rounded-lg shadow-lg" :src="item.img_path" :alt="item.description">
+                        </a>
+                        <div class="flex justify-between mt-1 border-b border-gray-200 p-1">
+                            <p class="text-gray-500 text-xs mt-1 p-1 sm:text-base ml-2">{{ item.description }}</p>
+                            <div class="flex my-auto p-1">
+                                <button class="bg-red-500 text-white rounded-md shadow-lg" @click="showDeleteModal(item.id)">
+                                    <XMarkIcon class="size-7 p-1" />
+                                </button>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </template>
-        </div>
+                </template>
+            </div>
+        </Fancybox>
 
         <Modal :show="isCreateModalShown" @close="closeCreateModal">
             <div class="p-3 text-gray-800">
                 <form @submit.prevent="submitImage" enctype="multipart/form-data">
 
                     <div>
-                        <InputLabel for="thumbnail" value="Image" />
+                        <InputLabel for="thumbnail">Image<span class="text-red-500">*</span></InputLabel>
                         <label class="flex flex-col items-center w-full max-w-lg p-5 mx-auto mt-2 text-center bg-white border-2 border-gray-300 border-dashed cursor-pointer rounded-xl hover:bg-indigo-100 transition-all"
                                for="thumbnail"
                                v-show="!thumbnail.preview"

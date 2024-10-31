@@ -8,6 +8,10 @@ return [
     |--------------------------------------------------------------------------
     */
 
+    'page_disabled_error' => 'Ova stranica je trenutno nedostupna. Molimo obratite se administratoru da odobri ovu funkcionalnost.',
+
+
+
     'missing_role' => 'Nemate dozvolu za pristup ovoj stranici.',
 
     'missing_permission' => 'Nemate dozvolu za pristup ovoj stranici.',
@@ -29,6 +33,8 @@ return [
 
 
     'post_create_successful' => 'Objava :post je uspješno kreirana!',
+
+    'post_create_successful_with_ai_error' => 'Objava je kreirana, ali moderacija je označila ovu objavu da sadrži problematičan sadržaj. Molimo Vas kontaktirajte svog administratora da riješi ovaj problem.',
 
     'post_update_successful' => 'Objava :post je uspješno ažurirana!',
 

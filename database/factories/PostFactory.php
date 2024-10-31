@@ -6,6 +6,8 @@ use App\Models\Post;
 use App\Models\PostCategory;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Str;
 
 /**
  * @extends Factory<Post>
@@ -29,7 +31,7 @@ class PostFactory extends Factory
             'forewords' => $this->faker->paragraph(rand(2, 5)),
             'content' => $this->faker->paragraphs(rand(4, 10), true),
             'published' => $this->faker->boolean(),
-            'thumbnail' => '/media/posts/thumbnails/' . $this->faker->image(public_path() . '/media/posts/thumbnails', rand(50, 500), rand(50, 500), null, false),
+            'thumbnail' =>  '/media/posts/thumbnails/' . $this->faker->image(public_path() . '/media/posts/thumbnails', rand(50, 500), rand(50, 500), null, false),
             'created_at' => $this->faker->dateTimeBetween('-1 year', 'now'),
         ];
     }

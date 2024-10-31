@@ -32,7 +32,7 @@
         let urlPrev = usePage().props.urlPrev;
 
         if (urlPrev !== 'empty') window.history.back();
-        else router.visit(route('posts.index'));
+        else router.visit(route('dashboard'));
     }
 </script>
 

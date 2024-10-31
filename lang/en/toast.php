@@ -7,6 +7,8 @@ return [
     | Toast Language Lines
     |--------------------------------------------------------------------------
     */
+    'page_disabled_error' => 'This page is currently disabled. Contact your administrator to enable this feature.',
+
 
     'missing_role' => 'You don\'t have permission to access this page.',
 
@@ -29,6 +31,8 @@ return [
 
 
     'post_create_successful' => 'Post :post successfully created!',
+
+    'post_create_successful_with_ai_error' => 'The post was created, but moderation flagged this post! Please contact your administrator to solve this issue.',
 
     'post_update_successful' => 'Post :post successfully updated!',
 

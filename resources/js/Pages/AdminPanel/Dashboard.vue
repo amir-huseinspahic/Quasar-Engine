@@ -1,14 +1,15 @@
 <script setup>
     import { ref } from 'vue';
+    import { Link, usePage } from '@inertiajs/vue3';
     import { trans } from 'laravel-vue-i18n';
     import { toArray } from 'lodash';
-    import { usePage } from '@inertiajs/vue3';
 
     import { getHumanReadableTime } from '@/Composables/GetHumanReadableTime.js';
 
 
     import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
     import BarChart from '@/Components/Base/BarChart.vue';
+    import { ArrowTrendingUpIcon } from '@heroicons/vue/24/outline/index.js';
 
     const { dayjs, getTimeFromNow } = getHumanReadableTime();
 
@@ -79,12 +80,12 @@
 
         <div class="flex flex-col-reverse md:flex-row h-[calc(100vh-64px)]">
             <div>
-                <div class="px-6 py-3 bg-white m-4 shadow-lg text-gray-700 flex space-x-2">
+                <div class="px-6 py-3 bg-white m-4 shadow-lg text-gray-700 justify-center flex space-x-2 flex-wrap text-sm">
                     <p class="font-semibold">{{ $t('Laravel version:') }} </p>
                     <p>{{ props.laravelVersion }}</p>
                 </div>
 
-                <div class="px-6 py-3 bg-white m-4 shadow-lg text-gray-700 flex space-x-2">
+                <div class="px-6 py-3 bg-white m-4 shadow-lg text-gray-700 justify-center flex space-x-2 flex-wrap text-sm">
                     <p class="font-semibold">{{ $t('PHP version:') }} </p>
                     <p>{{ props.phpVersion }}</p>
                 </div>
@@ -95,16 +96,16 @@
                     <h1 class="text-2xl">{{ greeting + ', ' }} <span class="font-semibold">{{ getFirstName() }}.</span></h1>
                 </div>
 
-                <div class="px-6 py-3 bg-white m-4 shadow-lg text-gray-700">
-                    <BarChart :chart-data="postChartData" :chart-options="postChartOptions" />
+                <div class="px-6 py-3 bg-white m-4 shadow-lg text-gray-700 relative">
+                    <BarChart :chart-data="postChartData" :chart-options="postChartOptions" :maintain-aspect-ratio="false" />
                 </div>
             </div>
 
 
             <div>
-                <div class="px-6 py-3 bg-white m-4 shadow-lg text-gray-700 flex space-x-2">
-                    <p class="font-semibold">Last login at:</p>
-                    <span v-if="lastLoginAt === null">Never</span>
+                <div class="px-6 py-3 bg-white m-4 shadow-lg text-gray-700 justify-center flex space-x-2 text-sm flex-wrap">
+                    <p class="font-semibold">{{ $t('Last login at:') }}</p>
+                    <span v-if="lastLoginAt === null">{{ $t('Never') }}</span>
                     <span v-else>{{ getTimeFromNow(lastLoginAt, $page.props.auth.user.settings.locale, $page.props.auth.user.settings.timezone) }}</span>
                 </div>
             </div>

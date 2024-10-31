@@ -103,6 +103,7 @@
     "24-hour format": "24-satni format",
     "12-hour format": "12-satni format",
     "Last active at: " : "Zadnji put aktivni: ",
+    "Never" : "Nikad",
     "Welcome :user" : "Dobrodošli :user",
     "Posted" : "Postavljeno",
     "Laravel version:" : "Laravel verzija:",
@@ -112,9 +113,11 @@
     "Picture" : "Slika",
     "Select a picture" : "Izaberite sliku",
     "Accepted formats:" : "Prihvaćene ekstenzije:",
-    "Description (optional)" : "Opis (neobavezno)",
+    "Description (optional)" : "Opis",
     "Remember me" : "Zapamti me",
     "Log in" : "Prijavi me",
+    "Select a thumbnail" : "Izaberite glavnu sliku za objavu",
+    "Click here to change the thumbnail" : "Klinkite ovjde da izmjenite glavnu sliku",
 
     "Post will be visible on the front page.": "Objava će biti vidljiva na početnoj stranici.",
     "Post will not be visible on the front page.": "Objava neće biti vidljiva na početnoj stranici.",
@@ -131,11 +134,13 @@
     "Posts published this year by month" : "Objave postavljene trenutne godine po mjesecu",
     "Are you sure you want to delete this image?" : "Da li ste sigurni da želite obrisati ovu sliku?",
     "Yes, I'm sure" : "Da, siguran sam",
-
-
-
-
-
+    "This post was flagged by moderation. Please contact your administrator for help." : "Ova objava je označena od strane moderatora. Molimo Vas da se obradite Vašem administratoru za pomoć.",
+    "OpenAI Moderation for posts" : "OpenAI Moderacija za objave",
+    "Enable if you want the AI moderation model to check posts for harmful, hateful, threatening texts." : "Ukljućite ako želite da AI provjerava da li objave sadrže tekst koji nije prikladnog sadržaja.",
+    "Enable if you want the ability to post news and articles on your page." : "Ukljućite ako želite mogućnost objavljivanja vijesti i članaka na Vašoj stranici.",
+    "Enable if you want the ability to manage your page gallery." : "Ukljućite ako želite mogućnost upravljanja galerijom na Vašoj stranici.",
+    "There is currently no images in the gallery." : "Nema slika u galeriji.",
+    "You can add them by clicking the button at the top of the page." : "Možete ih dodati sa klikom na dugme pri desnom vrhu stranice.",
 
 
     "Landing" : "Početak",

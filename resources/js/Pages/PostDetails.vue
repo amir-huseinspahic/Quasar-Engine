@@ -3,6 +3,7 @@
     import { Head, usePage } from '@inertiajs/vue3'
     import HomepageHeader from '@/Components/HomepageHeader.vue';
     import { getHumanReadableTime } from '@/Composables/GetHumanReadableTime.js';
+    import Fancybox from '@/Components/Base/Fancybox.vue';
 
     const { dayjs, getTimeFromNow } = getHumanReadableTime();
 
@@ -22,9 +23,6 @@
             type: Number
         }
     });
-
-    console.log(props.post)
-
     onMounted(() => {
         window.scrollTo(0, 0);
     });
@@ -45,18 +43,26 @@
         </div>
 
         <div class="w-full mx-auto md:w-2/3">
-            <img class="shadow-lg object-cover w-full max-h-[600px] md:rounded-xl" :src="props.post.thumbnail" :alt="props.post.title">
+            <Fancybox>
+                <a :href="props.post.thumbnail" data-fancybox :data-caption="props.post.title">
+                    <img class="shadow-lg object-cover w-full max-h-[600px] md:rounded-xl" :src="props.post.thumbnail" :alt="props.post.title">
+                </a>
+            </Fancybox>
         </div>
 
         <div class="mx-auto prose max-w-none lg:w-2/3 lg:prose-lg px-3 mt-3 font-bold text-gray-800" v-if="props.post.forewords" v-html="props.post.forewords" />
 
-        <div class="w-full my-2 grid grid-cols-2 gap-1 md:w-2/3 md:mx-auto md:grid-cols-3" v-if="props.post.media.length > 0">
-            <template v-for="image in props.post.media">
-                <img :src="image.path" :alt="image.title">
-            </template>
-        </div>
+        <Fancybox v-if="props.post.media.length > 0">
+            <div class="w-full my-2 grid grid-cols-2 gap-1 md:w-2/3 md:mx-auto md:grid-cols-3">
+                <template v-for="image in props.post.media">
+                    <a :href="image.path" data-fancybox="Gallery" :data-caption="image.title">
+                        <img :src="image.path" :alt="image.title">
+                    </a>
+                </template>
+            </div>
+        </Fancybox>
 
-        <div class="mx-auto prose max-w-none text-gray-800 lg:w-2/3 lg:prose-lg px-3 mt-3" v-html="props.post.content" />
+        <div class="mx-auto prose max-w-none text-gray-800 lg:w-2/3 lg:prose-lg px-3 mt-3 mb-12" v-html="props.post.content" />
 
     </div>
 </template>

@@ -115,7 +115,6 @@
             onSuccess: () => createPostForm.reset()
         });
     }
-
 </script>
 
 <template>
@@ -131,7 +130,7 @@
                     id="title"
                     name="title"
                     type="text"
-                    maxlenght="100"
+                    maxlenght="254"
                     class="mt-1 block w-full"
                     v-model="createPostForm.title"
                     required
@@ -155,7 +154,7 @@
                     </select>
                 </div>
 
-                <div class="mt-8 lg:mt-0 lg:mx-auto lg:my-auto" v-if="$page.props.auth.permissions.includes('publish posts')">
+                <div class="mt-8 lg:mt-0 lg:mx-auto lg:my-auto" v-if="$page.props.auth.permissions.includes('publish posts') || $page.props.auth.role === 'root'">
                     <InputLabel for="published">
                         {{ $t('Visibility') }}<span class="text-red-500">*</span>
                     </InputLabel>
@@ -201,8 +200,8 @@
                             {{ thumbnail.rawData.name }}
                         </span>
                         <span v-else class="mt-1 font-medium tracking-wide text-gray-700" id="filename">{{ $t('Thumbnail') }}</span>
-                        <span class="mt-2 text-xs tracking-wide text-gray-500">Select a thumbnail</span>
-                        <span class="mt-2 text-xs tracking-wide text-gray-500">Accepted formats: JPG, JPEG, PNG, SVG</span>
+                        <span class="mt-2 text-xs tracking-wide text-gray-500">{{ $t('Select a thumbnail') }}</span>
+                        <span class="mt-2 text-xs tracking-wide text-gray-500">{{ $t('Accepted formats:') }} JPG, JPEG, PNG, SVG</span>
                     </label>
 
                     <div class="max-w-xl mx-auto relative mt-2" v-if="thumbnail.togglePreview">

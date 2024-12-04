@@ -61,7 +61,7 @@
         <main>
             <div class="w-full h-[calc(100vh-96px)] flex flex-col text-white items-center select-none" id="landing">
                 <div class="my-auto px-10 py-6 text-center rounded-2xl glass-effect">
-                    <img class="h-32 w-auto mx-auto mb-4 lg:h-56" src="/media/app/logo.png" alt="logo">
+                    <img class="h-32 w-auto mx-auto mb-4 animate-spin-slow lg:h-56" src="/media/app/logo.png" alt="logo">
                     <h1 class="text-3xl lg:text-6xl border-b border-indigo-500 pb-1.5 mb-4 text-nowrap uppercase">{{ props.appName }}</h1>
                     <p class="text-xl mb-2 uppercase">{{ $t('A web app built on the VILT stack') }}</p>
                     <p class="text uppercase">{{ $t('Software engineering bachelor thesis') }}</p>
@@ -161,8 +161,8 @@
 
             <div class="px-3 py-6 flex flex-col text-white flex-1 items-center justify-center space-y-2 text-xl border-b border-slate-800 md:text-2xl">
                 <div class="pt-6 flex items-center justify-center space-x-6">
-                    <a class="translate hover:text-indigo-600 hover:scale-105 transition-all ease-out" href="https://github.com/amir-huseinspahic/Quasar-Engine" target="_blank">&#127756;Github</a>
-                    <a class="translate hover:text-indigo-600 hover:scale-105 transition-all ease-out" href="https://www.linkedin.com/" target="_blank">&#11088;LinkedIn</a>
+                    <a class="translate hover:text-indigo-600 hover:scale-105 transition-all ease-out" href="https://github.com/amir-huseinspahic/Quasar-Engine" target="_blank" rel="noopener noreferrer">&#127756;Github</a>
+                    <a class="translate hover:text-indigo-600 hover:scale-105 transition-all ease-out" href="https://www.linkedin.com/in/amir-huseinspahi%C4%87-663365285" target="_blank" rel="noopener noreferrer">&#11088;LinkedIn</a>
                 </div>
 
                 <div class="pt-6">

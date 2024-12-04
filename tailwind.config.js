@@ -17,6 +17,9 @@ export default {
                 // sans: ['Figtree', ...defaultTheme.fontFamily.sans],
                 sans: ['Fira Sans', ...defaultTheme.fontFamily.sans],
             },
+            animation: {
+                'spin-slow': 'spin 60s linear infinite',
+            }
         },
     },
 

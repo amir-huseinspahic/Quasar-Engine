@@ -57,6 +57,6 @@ class DatabaseSeeder extends Seeder
             PostCategory::create($category);
         }
 
-        Post::factory()->create();
+        Post::factory()->count(50)->create();
     }
 }

@@ -143,7 +143,7 @@
                 <form @submit.prevent="submitImage" enctype="multipart/form-data">
 
                     <div>
-                        <InputLabel for="thumbnail">Image<span class="text-red-500">*</span></InputLabel>
+                        <InputLabel for="thumbnail">{{ $t('Image') }}<span class="text-red-500">*</span></InputLabel>
                         <label class="flex flex-col items-center w-full max-w-lg p-5 mx-auto mt-2 text-center bg-white border-2 border-gray-300 border-dashed cursor-pointer rounded-xl hover:bg-indigo-100 transition-all"
                                for="thumbnail"
                                v-show="!thumbnail.preview"
@@ -175,7 +175,7 @@
 
                     <div class="flex space-x-2 mt-6">
                         <PrimaryButton type="submit" :disabled="addImageToGallery.processing">
-                            Add
+                            {{ $t('Add Image') }}
                         </PrimaryButton>
                         <DangerButton type="button" @click="closeCreateModal" :disabled="addImageToGallery.processing">
                             {{ $t('Cancel') }}

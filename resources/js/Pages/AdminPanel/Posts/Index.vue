@@ -46,8 +46,6 @@
         }
     });
 
-    console.log(usePage().props);
-
     const { getHRT } = getHumanReadableTime();
 
     const isFiltersMenuShown = ref(localStorage.getItem('isFiltersMenuShown') === 'true');

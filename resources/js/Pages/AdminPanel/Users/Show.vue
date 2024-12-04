@@ -40,8 +40,6 @@
         deleteUserForm.post(route('users.destroy', { user: props.user }));
     }
 
-    console.log(usePage().props)
-
 </script>
 
 <template>

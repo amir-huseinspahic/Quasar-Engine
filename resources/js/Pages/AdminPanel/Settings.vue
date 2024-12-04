@@ -14,8 +14,6 @@ import { useForm, usePage } from '@inertiajs/vue3'
         }
     });
 
-    console.log(usePage().props)
-
     const updateFormAI = useForm({ ai: props.appSettings.ai_moderation });
     const updateFormPost = useForm({ posts: props.appSettings.posts });
     const updateFormGallery = useForm({ gallery: props.appSettings.gallery });
